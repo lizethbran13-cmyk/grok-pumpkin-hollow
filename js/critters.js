@@ -119,7 +119,7 @@ export function makeLizard(o = {}) { const root = new THREE.Group(), body = new 
 export function animLizard(r, dt, speed) { r.t += dt; const t = r.t, k = Math.min(1, speed / 2); r.legs.forEach((l, i) => l.rotation.y = Math.sin(t * 14 + (i === 0 || i === 3 ? 0 : PI)) * 0.5 * k);
   r.body.rotation.y = Math.sin(t * 14) * 0.08 * k; r.body.position.y = k ? 0 : Math.max(0, Math.sin(t * 2.2)) ** 6 * 0.08; r.head.rotation.y = Math.sin(t * 0.7) * 0.3; }
 // ---------------------------------------------------------------- the Moon Lantern (glowing, faceted, warm)
-export function makeMoon Lantern() { const g = new THREE.Group(); const b = MB();
+export function makeSunstone() { const g = new THREE.Group(); const b = MB();
   b.l.add(new THREE.OctahedronGeometry(1, 1), 0xffb020, 0, 0, 0, 0, 0, 0, 0.32, 0.46, 0.32, 0.9); b.e.add(P.sphere, 0xffe9a0, 0, 0, 0, 0, 0, 0, 0.42, 0.55, 0.42);
   for (let i = 0; i < 8; i++) { const a = i / 8 * PI * 2; b.l.add(P.cone, 0xffd23f, Math.cos(a) * 0.5, 0, Math.sin(a) * 0.5, 0, -a, -PI / 2, 0.06, 0.22, 0.06, 0.6); }
   g.add(toGroup(b, false)); return g; }

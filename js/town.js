@@ -25,7 +25,7 @@ export const REGIONS = [
   { id: 'burrow', x0: -70, x1: -48, z0: -30, z1: -10, y0: -1, y1: 7, ceil: 4.8, name: "🏡 Torty's Family Burrow" },
   { id: 'shelby', x0: -94, x1: -78, z0: -26, z1: -10, y0: -1, y1: 7, ceil: 4.6, name: "🏠 Shelby's Burrow" },
   { id: 'school', x0: -70, x1: -50, z0: 10, z1: 26, y0: -1, y1: 7, ceil: 4.8, name: '🏫 Slowpoke School' },
-  { id: 'spa', x0: -36, x1: -10, z0: -114, z1: -94, y0: -1, y1: 8, ceil: 5.6, name: '♨️ Witch's Bubbling Spa' },
+  { id: 'spa', x0: -36, x1: -10, z0: -114, z1: -94, y0: -1, y1: 8, ceil: 5.6, name: '♨️ Witch’s Bubbling Spa' },
   { id: 'obs', x0: 14, x1: 30, z0: -114, z1: -98, y0: -1, y1: 10, ceil: 7.2, name: '🔭 Moon Observatory' },
   { id: 'club', x0: -30, x1: -12, z0: 74, z1: 90, y0: -1, y1: 7, ceil: 5.0, name: "🏁 Racers' Clubhouse" },
   { id: 'barn', x0: -104, x1: -86, z0: 44, z1: 60, y0: -1, y1: 9, ceil: 6.6, name: '🥬 Pumpkin Barn' },

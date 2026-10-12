@@ -1,6 +1,7 @@
 // Grok Pumpkin Hollow runtime: the town, players, townsfolk, the shuttle cart, ambient desert life, day -> sunset, collectibles,
 // the Moon Lantern mystery, the Broomstick Derby + Pumpkin Rush (3D mini-games), a hidden puzzle, co-op hooks.
 import * as THREE from 'three';
+import { makeFolk, animFolk } from './folk.js?v=ph1';
 import { LIGHT as THL, TH as THM } from './theme.js?v=ph1';
 import { E, setEnvironment, followShadow, skyUniforms } from './engine.js?v=ph1';
 import { World } from './world.js?v=ph1';
@@ -10,7 +11,7 @@ import { Player } from './player.js?v=ph1';
 import { FX } from './fx.js?v=ph1';
 import { makeRat, animRat, MB, toGroup } from './models.js?v=ph1';
 import { makePup, animPup, birdGeo } from './dogs.js?v=ph1';
-import { makeTortoise, animTortoise, makeRoadrunner, animRoadrunner, makeLizard, animLizard, makeMoon Lantern } from './critters.js?v=ph1';
+import { makeTortoise, animTortoise, makeRoadrunner, animRoadrunner, makeLizard, animLizard, makeSunstone } from './critters.js?v=ph1';
 import { P } from './geo.js?v=ph1';
 import { rcyl, capsule, torus, sph, cone, heart, star, blobGeo } from './shapes.js?v=ph1';
 import { updateFrustum, inView, LightPool } from './perf.js?v=ph1';
@@ -43,7 +44,8 @@ export class Game {
   sfx(n) { sfx(n); }
   // ------------------------------------------------ townsfolk
   buildNPCs() { const w = this.world; this.npcs = NPCS.map((d) => { const L = d.look; let rig, kind, markY;
-      if (L.rat) { rig = makeRat(L.rat, L.hat || 'none', { pack: false, extras: L.extras || [], noBlaster: true }); rig.root.scale.setScalar(1.35); kind = 'rat'; markY = 1.6; }
+      if (!['torty','mama','papa','gramps','pebble','candy','luna','pirat','snowie'].includes(d.id) && !L.rat && !L.dog) { const v = [...d.id].reduce((a, ch) => a + ch.charCodeAt(0), 0) % 8; rig = makeFolk(THM.id, d.id === 'mayor' && THM.snow ? 99 : v); rig.root.scale.setScalar(1.0); kind = 'folk'; markY = 2.0; if (!d._hn) { d._hn = 1; const fn = d.n.split(/[ (]/)[0]; d.n = (d.id === 'mayor' ? '' : (v % 4 === 3 ? 'Pumpkinhead ' : 'Ghost ')) + d.n; } }
+      else if (L.rat) { rig = makeRat(L.rat, L.hat || 'none', { pack: false, extras: L.extras || [], noBlaster: true }); rig.root.scale.setScalar(1.35); kind = 'rat'; markY = 1.6; }
       else if (L.dog) { rig = makePup(L.dog, { seed: 7 }); rig.root.scale.setScalar(L.s || 1); kind = 'dog'; markY = 1.2; }
       else if (L.bird) { rig = makeRoadrunner(L.bird); rig.root.scale.setScalar(L.s || 0.6); kind = 'bird'; markY = 1.6 * (L.s || 0.6); }
       else if (L.liz) { rig = makeLizard(L.liz); rig.root.scale.setScalar(L.s || 1); kind = 'lizard'; markY = 0.5 * (L.s || 1); }
@@ -83,7 +85,7 @@ export class Game {
       if (this.wants(n)) { n.mark.visible = true; n.mark.position.set(n.x, n.y + n.markY + 0.35 + Math.sin(T * 3) * 0.08, n.z); n.mark.rotation.y = T * 2; }
       if (!inView(n.x, n.y + 0.6, n.z, 2)) continue;
       const mode = talking ? 'chat' : near && n.d.mode === 'sleep' ? 'idle' : (n.d.mode || 'idle');
-      if (n.kind === 'tort') animTortoise(n.rig, dt, sp, mode);
+      if (n.kind === 'folk') animFolk(n.rig, dt, sp); else if (n.kind === 'tort') animTortoise(n.rig, dt, sp, mode);
       else if (n.kind === 'dog') animPup(n.rig, dt, Math.min(sp, 8), talking || near ? 'happy' : 'idle');
       else if (n.kind === 'rat') { animRat(n.rig, dt, { speed: sp, air: false, vy: 0, glide: false }); if (talking) n.rig.head.rotation.z = Math.sin(T * 9) * 0.08; }
       else if (n.kind === 'bird') animRoadrunner(n.rig, dt, sp); else animLizard(n.rig, dt, sp); } }
@@ -97,7 +99,7 @@ export class Game {
     const toy = () => { const b = MB(); b.g.add(P.capsule, 0x4ade80, 0, 0.25, 0, 0, 0, 0, 0.24, 0.32, 0.24); [-1, 1].forEach((s2) => b.g.add(P.capsule, 0x4ade80, s2 * 0.22, 0.32, 0, 0, 0, s2 * 0.6, 0.12, 0.2, 0.12)); b.g.add(P.sphere, 0xff5d8f, 0, 0.62, 0, 0, 0, 0, 0.1); [-1, 1].forEach((s2) => b.g.add(P.sphere, 0x111111, s2 * 0.07, 0.32, 0.12, 0, 0, 0, 0.03)); return toGroup(b); };
     this.toys = TOYS.map((p, i) => { const m = this.add(toy()); m.position.set(p[0], p[1] + 0.3, p[2]); m.scale.setScalar(1.3); m.visible = !S.toys.includes(i); return { i, p, m }; });
     // THE MOON LANTERN
-    this.sun = this.add(makeMoon Lantern()); this.sunLight = new THREE.PointLight(0xffb020, 0, 7, 2); this.sun.add(this.sunLight); this.sunPos();
+    this.sun = this.add(makeSunstone()); this.sunLight = new THREE.PointLight(0xffb020, 0, 7, 2); this.sun.add(this.sunLight); this.sunPos();
     // marigolds (Mama Rosa's beds)
     this.flowers = w.plants.map((p, i) => { const b = MB(); for (let k = 0; k < 3; k++) { const ox = (k - 1) * 0.6; b.g.add(P.cyl, 0x2e9e45, ox, 0.3, 0, 0, 0, 0, 0.03, 0.6, 0.03); for (let j = 0; j < 10; j++) { const a = j / 10 * PI * 2; b.g.add(P.sphere, 0xff9a1f, ox + Math.cos(a) * 0.12, 0.66 + Math.sin(a) * 0.12, 0, 0, 0, 0, 0.08, 0.08, 0.03); } b.g.add(P.sphere, 0xb45309, ox, 0.66, 0.02, 0, 0, 0, 0.07); }
       const g = toGroup(b); g.position.set(p[0], p[1], p[2]); g.scale.setScalar(S.plants.includes(i) ? 1 : 0.001); this.add(g); return g; });
