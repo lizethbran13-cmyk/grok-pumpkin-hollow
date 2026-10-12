@@ -1,24 +1,24 @@
 // Grok Pumpkin Hollow runtime: the town, players, townsfolk, the shuttle cart, ambient desert life, day -> sunset, collectibles,
 // the Moon Lantern mystery, the Broomstick Derby + Pumpkin Rush (3D mini-games), a hidden puzzle, co-op hooks.
 import * as THREE from 'three';
-import { makeFolk, animFolk } from './folk.js?v=ph1';
-import { LIGHT as THL, TH as THM } from './theme.js?v=ph1';
-import { E, setEnvironment, followShadow, skyUniforms } from './engine.js?v=ph1';
-import { World } from './world.js?v=ph1';
-import { buildTown, regionAt, areaName, REGIONS, DOORS, NEAR, STOPS, TRACK } from './town.js?v=ph1';
-import { UY } from './under.js?v=ph1';
-import { Player } from './player.js?v=ph1';
-import { FX } from './fx.js?v=ph1';
-import { makeRat, animRat, MB, toGroup } from './models.js?v=ph1';
-import { makePup, animPup, birdGeo } from './dogs.js?v=ph1';
-import { makeTortoise, animTortoise, makeRoadrunner, animRoadrunner, makeLizard, animLizard, makeSunstone } from './critters.js?v=ph1';
-import { P } from './geo.js?v=ph1';
-import { rcyl, capsule, torus, sph, cone, heart, star, blobGeo } from './shapes.js?v=ph1';
-import { updateFrustum, inView, LightPool } from './perf.js?v=ph1';
-import { sfx, playMusic } from './audio.js?v=ph1';
-import { S, persist } from './save.js?v=ph1';
-import { NPCS, talk, clueText, SUN_CLUES, HATS, BADGES, GLYPH } from './story.js?v=ph1';
-import { readMove, edge, held, IN } from './input.js?v=ph1';
+import { makeFolk, animFolk } from './folk.js?v=ph2';
+import { LIGHT as THL, TH as THM } from './theme.js?v=ph2';
+import { E, setEnvironment, followShadow, skyUniforms } from './engine.js?v=ph2';
+import { World } from './world.js?v=ph2';
+import { buildTown, regionAt, areaName, REGIONS, DOORS, NEAR, STOPS, TRACK } from './town.js?v=ph2';
+import { UY } from './under.js?v=ph2';
+import { Player } from './player.js?v=ph2';
+import { FX } from './fx.js?v=ph2';
+import { makeRat, animRat, MB, toGroup } from './models.js?v=ph2';
+import { makePup, animPup, birdGeo } from './dogs.js?v=ph2';
+import { makeTortoise, animTortoise, makeRoadrunner, animRoadrunner, makeLizard, animLizard, makeSunstone } from './critters.js?v=ph2';
+import { P } from './geo.js?v=ph2';
+import { rcyl, capsule, torus, sph, cone, heart, star, blobGeo } from './shapes.js?v=ph2';
+import { updateFrustum, inView, LightPool } from './perf.js?v=ph2';
+import { sfx, playMusic } from './audio.js?v=ph2';
+import { S, persist } from './save.js?v=ph2';
+import { NPCS, talk, clueText, SUN_CLUES, HATS, BADGES, GLYPH } from './story.js?v=ph2';
+import { readMove, edge, held, IN } from './input.js?v=ph2';
 const PI = Math.PI;
 const TOYS = [[60, 0, 76], [-70, 0, 61], [108, 0, -4]];
 const DAY = 420; // seconds per day -> sunset cycle
@@ -222,7 +222,7 @@ export class Game {
     if (this.door && S.flags.door && !this.under) this.tryDescend(false);
     if (this.door) { const want = S.flags.door ? -3.3 : 0; this.door.position.y += (want - this.door.position.y) * Math.min(1, dt * 1.5); }
     const nearT = !this.under && Math.hypot(me.x - TRACK.cx, me.z - TRACK.cz) < 75; this.racers.forEach((r) => r.root.visible = nearT); if (!this.race && nearT) this.placeRacers(dt); }
-  // ------------------------------------------------ SLOW-MO DERBY (3D): 1 lap, cheer on the beat to boost Speedy (#3)
+  // ------------------------------------------------ BROOMSTICK DERBY (3D): 1 lap, cheer on the beat to boost Speedy (#3)
   offerRace() { if (this.race) return; this.race = { t: -3.5, A: [PI / 2 - 0.02, PI / 2 - 0.02, PI / 2 - 0.02, PI / 2 - 0.02], v: [0, 0, 0, 0], boost: 0, beat: 0, last: 4, combo: 0, done: false }; this.toastMsg('🏁 Broomstick Derby! Tap 📣 CHEER when the ring over Speedy #3 turns GREEN.'); sfx('check'); }
   updateRace(dt) { const R = this.race; if (!R) { this.cheerRing.visible = false; return; } R.t += dt; const end = PI / 2 + PI * 2;
     if (R.t < 0) { const c = Math.ceil(-R.t); if (c !== R.last && c <= 3) { R.last = c; this.toastMsg(c + '…'); sfx('click'); } this.hud.timer('🏁 ' + Math.max(1, c)); this.placeRacers(dt); return; }
@@ -234,9 +234,9 @@ export class Game {
     if (R.A[2] >= end || R.t > 120) this.endRace(); }
   cheer() { const R = this.race; if (!R || R.t < 0) return; const inWin = R.beat > 0.72 || R.beat < 0.06; if (inWin && R.lastBeat !== Math.floor((R.t + 0.1) / 0.9)) { R.lastBeat = Math.floor((R.t + 0.1) / 0.9); R.combo++; R.boost = Math.min(0.07, R.boost + 0.012 + Math.min(R.combo, 6) * 0.0015); sfx('part'); const p = this.racers[2].root.position; this.fx.burst(p.x, 1.0, p.z, 0x4ade80, 8, 3); } else { R.combo = 0; R.boost = Math.max(0, R.boost - 0.012); sfx('deny'); } }
   endRace() { const R = this.race; this.race = null; this.hud.timer(''); this.cheerRing.visible = false; const place = R.place || 4; this.fx.confetti(this.me.x, this.me.y + 1.5, this.me.z, place === 1 ? 80 : 20); sfx(place === 1 ? 'win' : 'check');
-    this.toastMsg(place === 1 ? '🏆 SPEEDY WINS THE SLOW-MO DERBY!' : `🏁 Speedy finished ${['1st', '2nd', '3rd', '4th'][place - 1]}! Talk to Pi-rat to race again.`); S.best.race = Math.max(S.best.race | 0, 5 - place); persist();
+    this.toastMsg(place === 1 ? '🏆 SPEEDY WINS THE BROOMSTICK DERBY!' : `🏁 Speedy finished ${['1st', '2nd', '3rd', '4th'][place - 1]}! Talk to Pi-rat to race again.`); S.best.race = Math.max(S.best.race | 0, 5 - place); persist();
     if (place === 1 && !S.flags.race) { S.flags.race = 1; persist(); this.giveHat('racer'); this.badge('race'); } }
-  // ------------------------------------------------ HARVEST RUSH (3D): plant, water and pick lettuce in 60 s
+  // ------------------------------------------------ PUMPKIN RUSH (3D): plant, water and pick lettuce in 60 s
   offerFarm() { if (this.rush) return; this.rush = { t: 60, n: 0 }; this.plots.forEach((p) => { p.st = 0; p.t = 0; }); this.toastMsg('🥬 Pumpkin Rush! Plant 🌱 → water 💧 → wait → pick 🥬. 60 seconds!'); sfx('check'); }
   updateRush(dt) { const R = this.rush; this.plots.forEach((p) => { if (p.st === 2) { p.t += dt; if (p.t >= (R ? 6 : 12)) p.st = 3; } const gk = p.st === 2 ? 0.25 + p.t / 6 * 0.75 : p.st === 3 ? 1.05 + Math.sin(this.T * 4) * 0.04 : 0.001; p.head.scale.setScalar(p.head.scale.x + (gk - p.head.scale.x) * Math.min(1, dt * 5)); p.sprout.visible = p.st === 2 && p.t < 1.2; p.seeds.visible = p.st === 1; });
     if (!R) return; R.t -= dt; this.hud.timer(`🥬 ${Math.ceil(Math.max(0, R.t))} s · ${R.n} picked`); if (R.t <= 0) { this.rush = null; this.hud.timer(''); const nb = R.n > (S.best.farm | 0); S.best.farm = Math.max(S.best.farm | 0, R.n); persist(); this.toastMsg(`🥬 Time! ${R.n} lettuces${nb ? ' · NEW BEST!' : ''}`); sfx('win'); this.fx.confetti(this.me.x, this.me.y + 1.5, this.me.z, 30); if (R.n >= 8 && !S.flags.farm) { S.flags.farm = 1; persist(); this.giveHat('chef'); this.badge('farm'); } } }

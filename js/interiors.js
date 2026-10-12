@@ -1,7 +1,7 @@
 // Grok Pumpkin Hollow interiors: 18 walk-in buildings, each packed with real 3D props (and something to do).
 import * as THREE from 'three';
-import * as K from './kit.js?v=ph1';
-import { claypot, lettuce, stall, tcrate, shade, SUN, prism, agave, barrel, prickly, tortStatue, lanternString } from './town.js?v=ph1';
+import * as K from './kit.js?v=ph2';
+import { claypot, lettuce, stall, tcrate, shade, SUN, prism, agave, barrel, prickly, tortStatue, lanternString } from './town.js?v=ph2';
 const { wall, D, sign3d, rbox, rcyl, lathe, sph, cyl, cone, torus, capsule, tube, star, heart, blobGeo, pick, PR } = K;
 const R = K.R, PI = Math.PI, FL = 0.12;
 const art = (w, axis, at, c, y, W, H, side, k) => PR.frame(K.scaled(w, 0, FL, 0, 0.25), axis, (at + side * 0.25) / 0.25, c / 0.25, y / 0.25, W / 0.25, H / 0.25, side, k);
@@ -51,7 +51,7 @@ function hall(w) { w.region = 'hall'; const I = w.I, S = w.spots;
   lanternString(w, [[-11, 5.6, -44], [0, 5.0, -48], [11, 5.6, -44]], SUN, 12); lanternString(w, [[-11, 5.6, -58], [0, 5.0, -56], [11, 5.6, -58]], SUN, 12);
   I({ kind: 'fun', x: 9.2, y: 0, z: -50, r: 2.4, label: '🗺️ Look at the town model', msgs: ['🗺️ A tiny Pumpkin Hollow! Even the tiny tortoises are moving slowly.', '🗺️ Someone added a tiny lettuce to every rooftop.'] });
   shell(w, -9.8, 2.6, -52.4); }
-// ------------------------------------------------------------------------------------------------ SANDSTONE LIBRARY
+// ------------------------------------------------------------------------------------------------ CREAKY LIBRARY
 function library(w) { w.region = 'library'; const I = w.I;
   for (let i = 0; i < 5; i++) shelf(w, -44.2 + i * 3.6, -57.3, 0, 3.2, 4.0, 0x8a5a32); for (let i = 0; i < 3; i++) shelf(w, -45.4, -54.6 + i * 3.6, PI / 2, 3.2, 3.6, 0x8a5a32); for (let i = 0; i < 2; i++) shelf(w, -28.6, -54.6 + i * 3.6, -PI / 2, 3.2, 3.6, 0x8a5a32);
   for (let r = 0; r < 2; r++) { const z = -51 + r * 0; [-41.5, -33.5].forEach((x) => { shelf(w, x, -51, 0, 3.4, 2.2, 0x9a6a3e); shelf(w, x, -50.2, PI, 3.4, 2.2, 0x9a6a3e); }); }
@@ -69,7 +69,7 @@ function library(w) { w.region = 'library'; const I = w.I;
   K.rug(w, -37, -44, 0, 6, 2.2, 0xffd23f, 0xfff1d6); for (let i = 0; i < 6; i++) hh('toyBlock', w, -39 + i * 0.8, -43.6, 0.2, 0, 2, 0, SUN[i]); hh('teddy', w, -35.4, -43.3, 0.18, 0, PI);
   sign3d(w, 'QUIET PLEASE (WHISPER SLOWLY)', -37, 4.6, -57.0, 0, 0.18, 0x1e3a8a, 0xfff1d6); [[-46, -42.5], [-28, -42.5]].forEach(([x, z]) => bigPlant(w, x + (x < -40 ? 0.9 : -0.9), z - 0.8, 1.1)); sconce(w, 'z', -45.7, -46, 3.0, 1); sconce(w, 'z', -28.3, -46, 3.0, -1);
   shell(w, -38, 3.9, -57.0); }
-// ------------------------------------------------------------------------------------------------ LETTUCE LEAF CAFÉ
+// ------------------------------------------------------------------------------------------------ CAULDRON CAFÉ
 function cafe(w) { w.region = 'cafe'; const I = w.I;
   const T = counter(w, 37, -53.5, 0, 9, 0x16a34a, 0xfff1d6); register(w, T, 3.6);
   { const x = 33.6, z = -53.6; w.add('e', rbox(2.4, 0.6, 0.7, 0.05), 0xdff6ff, x, FL + 1.45, z); for (let i = 0; i < 6; i++) lettuceDish(w, x - 0.9 + (i % 3) * 0.9, FL + 1.18, z - 0.15 + Math.floor(i / 3) * 0.3); }
@@ -78,7 +78,7 @@ function cafe(w) { w.region = 'cafe'; const I = w.I;
   { const T2 = w.tf(37, FL, -57.0, 0); T2.slab('x', 0xcbd5e1, -2.5, 0, 0, 2.4, 0.95, 0.9, 0.06); for (let i = 0; i < 4; i++) T2.add('x', torus(0.25, 16), 0x334155, -3.1 + (i % 2) * 1.1, 0.97, -0.2 + Math.floor(i / 2) * 0.4, PI / 2, 0, 0, 0.18, 0.18, 0.1); T2.add('x', lathe([[0, 0], [0.3, 0], [0.32, 0.4], [0, 0.4]], 18, 'pot'), 0x94a3b8, -3.1, 0.98, -0.2); T2.add('l', sph(8), 0xff6b35, -2.0, 0.98, 0.2, 0, 0, 0, 0.14, 0.02, 0.14, 0.4);
     T2.slab('g', 0xf1f5f9, 3.6, 0, 0, 1.2, 2.4, 0.8, 0.1); T2.box('x', 0x94a3b8, 3.15, 1.2, 0.41, 0.06, 0.6, 0.04, 0.02); shelf(w, 37.5, -57.5, 0, 2.6, 2.6, 0x9a6a3e); jars(w, 36.6, FL + 1.6, -57.4, 4); }
   // menu board (3D letters + leaf slabs)
-  { w.add('m', rbox(4.6, 1.6, 0.1, 0.06), 0x14532d, 37, 3.6, -57.85); sign3d(w, 'TODAY: LETTUCE', 37, 3.95, -57.78, 0, 0.22, 0xffffff, 0x14532d); sign3d(w, 'TOMORROW: LETTUCE', 37, 3.35, -57.78, 0, 0.18, 0xbbf7d0, 0x14532d); }
+  { w.add('m', rbox(4.6, 1.6, 0.1, 0.06), 0x14532d, 37, 3.6, -57.85); sign3d(w, 'TODAY: PUMPKIN PIE', 37, 3.95, -57.78, 0, 0.22, 0xffffff, 0x14532d); sign3d(w, 'TOMORROW: LETTUCE', 37, 3.35, -57.78, 0, 0.18, 0xbbf7d0, 0x14532d); }
   // tables with chairs, a cozy booth, hanging plants, wall tiles
   [[31, -47], [35, -46], [39, -47], [43, -46], [31, -44], [43, -43.5]].forEach(([x, z], i) => { K.tableR(w, x, z, 0.7, 0.8, 0xffffff, 0x16a34a); for (let k = 0; k < 2; k++) K.chair(w, x + (k ? 1.0 : -1.0), FL, z, k ? -PI / 2 : PI / 2, SUN[(i + k) % 8]); lettuceDish(w, x - 0.2, 0.82, z); w.add('g', lathe([[0, 0], [0.06, 0], [0.07, 0.2], [0, 0.2]], 12, 'glass'), 0xbbf7d0, x + 0.25, 0.8, z + 0.15); });
   K.sofa(w, 29.4, -50.5, PI / 2, 0x16a34a, 0x4ade80, 14); lowTable(w, 31, -50.5, 0.6, 0xffffff, 0.75);
@@ -99,7 +99,7 @@ function post(w) { w.region = 'post'; const I = w.I;
   K.rug(w, -38, 42.5, 0, 4, 2.2, 0x2563eb, 0xfff1d6); bigPlant(w, -45, 41.2, 1); bigPlant(w, -31, 41.2 + 3.5, 0.9);
   I({ kind: 'fun', x: -34, y: 0, z: 49.5, r: 2, label: '✉️ Peek at the sorting table', msgs: ['✉️ A postcard: "Wish you were here. You ARE here? Even better!"', '✉️ A letter addressed to "The Moon". Rocky is still working on that route.'] });
   shell(w, -44.6, 1.2, 51.5); }
-// ------------------------------------------------------------------------------------------------ SLEEPY SHELL INN
+// ------------------------------------------------------------------------------------------------ HAUNTED INN
 function inn(w) { w.region = 'inn'; const I = w.I, S = w.spots;
   const T = counter(w, 33, 44.2, PI, 3.6, 0x7c3aed, 0xfff1d6); T.add('x', lathe([[0, 0], [0.15, 0], [0.16, 0.04], [0.02, 0.14], [0, 0.18]], 14, 'bell'), 0xffd23f, 1.0, 1.12, 0); w.add('m', rbox(2.4, 1.4, 0.1, 0.05), 0x8a5a32, 33, 3.2, 40.5); for (let i = 0; i < 8; i++) w.add('x', torus(0.3, 12), 0xffd23f, 32 + (i % 4) * 0.65, 2.9 + Math.floor(i / 4) * 0.55, 40.6, 0, 0, 0, 0.08, 0.08, 0.08);
   // lobby: kiva fireplace, sofas, rug, plants
@@ -112,7 +112,7 @@ function inn(w) { w.region = 'inn'; const I = w.I, S = w.spots;
   { const x = 45.7, z = 47.6; w.add('m', rbox(0.06, 0.7, 0.45, 0.04), 0x7c4a1e, x - 0.03, FL + 0.35, z); w.add('x', sph(6), 0xffd23f, x - 0.08, FL + 0.35, z + 0.14, 0, 0, 0, 0.03); w.add('l', rbox(0.02, 0.06, 0.5, 0.01), 0xffd28a, x - 0.04, FL + 0.03, z, 0, 0, 0, 1, 1, 1, 0.5); w.secrets.push({ id: 'tinydoor', x: x - 0.7, y: 0, z, r: 1.2, msg: '🚪 Secret: a door for VERY small guests. Something inside is snoring.' }); }
   clock(w, 'z', 28.3, 46, 3.4, 1); bigPlant(w, 29.2, 41.2, 1); hangPlant(w, 37, 5.0, 44);
   shell(w, 46 - 0.8, 4.2, 44); }
-// ------------------------------------------------------------------------------------------------ CACTUS-FLOWER GARDEN MARKET (indoor hall)
+// ------------------------------------------------------------------------------------------------ NIGHT MARKET (indoor hall)
 function market(w) { w.region = 'market'; const I = w.I;
   stall(w, 54, -24.2, 0, 0xff5d8f, 0xffffff, 'fruit'); stall(w, 59, -24.2, 0, 0xa66bff, 0xffffff, 'flowers'); stall(w, 65, -24.2, 0, 0x4ade80, 0xffffff, 'lettuce'); stall(w, 70.2, -24.2, 0, 0xffb020, 0xffffff, 'pots');
   // central fountain with cactus-flower planters
@@ -150,7 +150,7 @@ function pottery(w) { w.region = 'pottery'; const I = w.I;
   [[104, 4.2, -17], [108, 4.2, -17]].forEach(([x, y, z]) => hangPlant(w, x, y, z)); claypot(w, 111, -11.2, 1.3, 0x2dd4bf, 'flower');
   I({ kind: 'fun', x: 104, y: 0, z: -13, r: 2, label: '🏺 Spin the pottery wheel', msgs: ['🏺 Whirr… you made a lovely wobbly bowl!', '🏺 It\'s a vase! Or a hat. Definitely art.'] });
   shell(w, 111.2, 1.2, -13); }
-// ------------------------------------------------------------------------------------------------ PRICKLY PEAR SWEETS
+// ------------------------------------------------------------------------------------------------ TRICK-OR-TREAT SWEETS
 function sweets(w) { w.region = 'sweets'; const I = w.I;
   const T = counter(w, 57, 19.5, PI, 6, 0xdb2777, 0xfff1d6); register(w, T, 2.2); w.add('e', rbox(3.8, 0.55, 0.7, 0.05), 0xdff6ff, 56.2, FL + 1.43, 19.5); for (let i = 0; i < 8; i++) { const x = 54.6 + (i % 4) * 1.0, z = 19.3 + Math.floor(i / 4) * 0.3; w.add('g', [sph(10), torus(0.4, 16), heart(), star()][i % 4], SUN[i], x, FL + 1.28, z, i % 4 === 1 ? PI / 2 : 0, 0, 0, 0.14, 0.14, 0.12); }
   shelf(w, 57, 23.4, PI, 6, 2.8, 0xffffff); for (let r = 0; r < 3; r++) jars(w, 54.5, FL + 0.1 + r * 0.7, 23.3, 6);
@@ -162,7 +162,7 @@ function sweets(w) { w.region = 'sweets'; const I = w.I;
   wallTiles(w, 'z', 50.3, 11, 23.5, 1.2, 1, [0xffb3cf, 0xffffff, 0xfde68a]); hangPlant(w, 57, 4.6, 14);
   I({ kind: 'clue', id: 'lemon', x: 57, y: 0, z: 18.2, r: 2.2, label: '🍬 Ask about lemon drops' });
   shell(w, 52, 2.4, 14); }
-// ------------------------------------------------------------------------------------------------ FOSSIL & SHELL MUSEUM
+// ------------------------------------------------------------------------------------------------ MUSEUM OF MONSTERS
 function fossil(w) { w.region = 'fossil'; const I = w.I;
   // the giant ancient sea-turtle fossil on a platform
   { const x = 82, z = 20.5; w.slab('m', 0xd9b88a, x, FL, z, 9, 0.5, 6, 0.15); w.add('m', rbox(8.6, 0.06, 5.6, 0.03), 0xf0cf98, x, FL + 0.5, z);
@@ -221,7 +221,7 @@ function shelby(w) { w.region = 'shelby'; const I = w.I;
   shell(w, -92.6, 2.8, -18); }
 // ------------------------------------------------------------------------------------------------ SLOWPOKE SCHOOL
 function school(w) { w.region = 'school'; const I = w.I;
-  { w.add('m', rbox(7, 2.2, 0.1, 0.05), 0x14532d, -60, 2.5, 25.6); w.add('m', rbox(7.3, 0.12, 0.3, 0.03), 0x9a6a3e, -60, 1.35, 25.5); sign3d(w, 'SLOW AND STEADY', -60, 2.95, 25.52, PI, 0.3, 0xffffff, 0x14532d); sign3d(w, 'A B C   1 2 3', -60, 2.2, 25.52, PI, 0.22, 0xfef08a, 0x14532d); for (let i = 0; i < 3; i++) w.add('m', rbox(0.15, 0.04, 0.04, 0.01), SUN[i * 2], -62 + i * 0.3, 1.45, 25.4); }
+  { w.add('m', rbox(7, 2.2, 0.1, 0.05), 0x14532d, -60, 2.5, 25.6); w.add('m', rbox(7.3, 0.12, 0.3, 0.03), 0x9a6a3e, -60, 1.35, 25.5); sign3d(w, 'SPOOKY AND STEADY', -60, 2.95, 25.52, PI, 0.3, 0xffffff, 0x14532d); sign3d(w, 'A B C   1 2 3', -60, 2.2, 25.52, PI, 0.22, 0xfef08a, 0x14532d); for (let i = 0; i < 3; i++) w.add('m', rbox(0.15, 0.04, 0.04, 0.01), SUN[i * 2], -62 + i * 0.3, 1.45, 25.4); }
   for (let r = 0; r < 3; r++) for (let c = 0; c < 4; c++) { const x = -66 + c * 4, z = 21.5 - r * 3.2; lowTable(w, x, z, 0.6, SUN[(r + c) % 8], 0.45); pouf(w, x, z - 1.0, SUN[(r + c + 3) % 8], 0.38); w.add('m', rbox(0.4, 0.02, 0.3, 0.01), 0xffffff, x - 0.1, FL + 0.46, z, 0, 0.3, 0); w.add('g', cyl(6), 0xffd23f, x + 0.2, FL + 0.46, z, 0, 0, PI / 2, 0.02, 0.3, 0.02); }
   { const x = -53.5, z = 22.5; w.slab('m', 0x9a6a3e, x, FL, z, 2.6, 0.8, 1.2, 0.06); lettuce(w, x + 0.6, FL + 0.8, z, 0.5); books(w, x - 0.9, FL + 0.8, z, 5); hh('globe', w, x - 0.2, z + 0.1, 0.2, 0, 0); }
   for (let i = 0; i < 8; i++) { const x = -69.4, z = 12 + i * 1.6; w.add('m', rbox(0.7, 1.2, 1.4, 0.04), 0x9a6a3e, x, FL + 0.6, z); w.add('f', rbox(0.4, 0.5, 0.6, 0.12), SUN[i], x + 0.2, FL + 0.8, z); } w.solid(-69.8, 0, 11.2, -69, 1.3, 25, { cam: false });
@@ -229,7 +229,7 @@ function school(w) { w.region = 'school'; const I = w.I;
   K.rug(w, -53.5, 14, 0, 4, 3, 0xef4444, 0xfef3c7); for (let i = 0; i < 5; i++) hh('toyBlock', w, -55 + i * 0.7, 13.6, 0.22, i, 2, 0, SUN[i + 1]); clock(w, 'z', -50.3, 18, 3.4, -1); bigPlant(w, -51, 25, 1);
   I({ kind: 'fun', x: -60, y: 0, z: 23.5, r: 2.4, label: '📝 Read the chalkboard', msgs: ['📝 Today\'s lesson: "How to win a race (keep going)."', '📝 Homework: take a nap in the sun. Extra credit: a longer nap.'] });
   shell(w, -69.4, 1.5, 24.6); }
-// ------------------------------------------------------------------------------------------------ HOT SPRING SPA
+// ------------------------------------------------------------------------------------------------ WITCH’S BUBBLING SPA
 function spa(w) { w.region = 'spa'; const I = w.I, S = w.spots;
   { const x = -23, z = -104; w.add('m', rcyl(4.6, 0.55, 0.15, 48), 0xe8d5b5, x, FL, z, 0, 0, 0, 1, 1, 0.75); w.add('e', new THREE.CircleGeometry(4.2, 48).rotateX(-PI / 2), 0x5eead4, x, FL + 0.48, z, 0, 0, 0, 1, 1, 0.75); w.add('m', new THREE.CircleGeometry(4.0, 40).rotateX(-PI / 2), 0x0f766e, x, FL + 0.1, z, 0, 0, 0, 1, 1, 0.75);
     for (let i = 0; i < 30; i++) { const a = i / 30 * PI * 2; w.add('m', blobGeo(i & 31, 0.15, 1), pick([0xe2d2b4, 0xd6c2a0, 0xc9b08a]), x + Math.cos(a) * 4.6, FL + 0.55, z + Math.sin(a) * 3.45, 0, a, 0, 0.45, 0.2, 0.32); } w.solid(x - 4.4, 0, z - 3.2, x + 4.4, 0.6, z + 3.2, { cam: false }); S.spaPool = [x, FL + 0.6, z]; w.lights.push({ x, y: 1.4, z, c: 0x5eead4, i: 8, d: 10 }); }
@@ -245,7 +245,7 @@ function spa(w) { w.region = 'spa'; const I = w.I, S = w.spots;
   for (let i = 0; i < 4; i++) claypot(w, -35 + i * 0.01 + (i % 2) * 24.2, -113 + Math.floor(i / 2) * 0.01, 1.2, 0x2dd4bf, 'agave'); for (let i = 0; i < 5; i++) hangPlant(w, -32 + i * 4, 5.4, -98.5);
   sign3d(w, 'RELAX. SLOWLY.', -23, 4.4, -113.6, 0, 0.3, 0x0f766e, 0xeafcf8); wallTiles(w, 'x', -113.7, -32, -27, 1.4, 1, [0x5eead4, 0xffffff, 0x14b8a6]);
   shell(w, -12.6, 1.0, -100); }
-// ------------------------------------------------------------------------------------------------ SUN OBSERVATORY
+// ------------------------------------------------------------------------------------------------ MOON OBSERVATORY
 function obs(w) { w.region = 'obs'; const I = w.I;
   { const x = 22, z = -107; w.add('m', rcyl(1.6, 0.6, 0.15, 32), 0x334155, x, FL, z); w.add('x', rcyl(0.5, 2.2, 0.08, 20), 0x475569, x, FL + 0.6, z); const T = w.tf(x, FL + 2.8, z, 0); T.add('x', cyl(24), 0xe2e8f0, 0, 0.5, -0.6, 0.85, 0, 0, 0.6, 5.0, 0.6); T.add('x', torus(0.2, 24), 0xd4a017, 0, 2.6, -2.2, 0.85 + PI / 2, 0, 0, 0.66, 0.66, 0.4); T.add('e', new THREE.CircleGeometry(0.58, 24), 0x93c5fd, 0, 2.65, -2.25, 0.85 - PI / 2, 0, 0, 1, 1, 1); T.add('x', cyl(12), 0x334155, 0, -1.5, 1.4, 0.85, 0, 0, 0.12, 0.8, 0.12); w.solid(x - 1.6, 0, z - 1.6, x + 1.6, 3.0, z + 1.6); }
   I({ kind: 'clue', id: 'chart', x: 22, y: 0, z: -104.6, r: 2.0, label: '🔭 Check the telescope log' });
@@ -269,7 +269,7 @@ function club(w) { w.region = 'club'; const I = w.I;
   { const x = -18, z = 80; w.add('m', rbox(3, 0.06, 2, 0.02), 0x7cc96a, x, FL + 0.9, z); w.add('m', torus(0.18, 40), 0xd2693c, x, FL + 0.94, z, PI / 2, 0, 0, 1.1, 0.7, 0.25); w.slab('m', 0x9a6a3e, x, FL, z, 3.1, 0.88, 2.1, 0.05); }
   I({ kind: 'fun', x: -18, y: 0, z: 81.5, r: 2, label: '🏁 Study the race plan', msgs: ['🏁 The plan: "1. Start. 2. Keep going. 3. Finish." Classic.', '🏁 Coach scribbled: "Cheer on the beat = turbo shell!"'] });
   shell(w, -29.2, 2.8, 79.4); }
-// ------------------------------------------------------------------------------------------------ LETTUCE BARN
+// ------------------------------------------------------------------------------------------------ PUMPKIN BARN
 function barn(w) { w.region = 'barn'; const I = w.I;
   for (let i = 0; i < 10; i++) { const x = -102.5 + (i % 4) * 1.7, z = 58.4 - Math.floor(i / 4) * 1.3, y = FL + (i > 7 ? 1.1 : 0); w.add('m', rbox(1.6, 1.1, 1.2, 0.2), 0xe9c46a, x, y + 0.55, z); for (let k = 0; k < 2; k++) w.add('m', rbox(1.62, 0.06, 1.22, 0.02), 0xc9a24a, x, y + 0.3 + k * 0.5, z); w.solid(x - 0.8, y, z - 0.6, x + 0.8, y + 1.1, z + 0.6, { cam: false }); }
   for (let i = 0; i < 9; i++) tcrate(w, -102.6 + (i % 3) * 1.05, FL + Math.floor(i / 3) * 0.8, 46.2, 0.95, 0xd8a15a, i >= 6 ? 'lettuce' : 'none');

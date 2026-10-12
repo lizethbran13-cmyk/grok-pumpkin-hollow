@@ -1,5 +1,5 @@
 // Pumpkin Hollow townsfolk, what they say, side tasks and the mystery "Who swiped the Moon Lantern?". Pure data + helpers.
-import { S, persist } from './save.js?v=ph1';
+import { S, persist } from './save.js?v=ph2';
 const PI = Math.PI;
 export const HATS = [
   { id: 'none', n: 'No Hat', how: 'Always yours' }, { id: 'pupears', n: 'Schnauzer Ears', how: "Find Candy's 3 squeaky cactus toys" }, { id: 'flower', n: 'Desert Marigold', how: "Plant Mama Rosa's 4 marigolds" },
@@ -133,7 +133,7 @@ export function talk(id, G) { const n = (S.talks[id] = (S.talks[id] | 0) + 1); p
       if (q >= 4) return { lines: L(cyc(['Best festival ever. And the sunset has never been so golden!', 'Pebble is our new Junior Moon Lantern Keeper. With a tiny badge!', 'You\'re welcome back in Pumpkin Hollow any time. Slowly.'])) };
       return { lines: L(cyc(['Any clues yet? Check the journal in the pause menu.', 'Tiny footprints… who in town is that tiny?', 'Talk to everyone! Tortoises love to chat. It takes a while.'])) }; }
     case 'torty': fam('torty');
-      if (n === 1) return { lines: L('YOU CAME! Welcome to my hometown! Everybody here calls me Torty.', 'And this is MY company: TORTUGA TECH INC.! We test things and make them tougher. We know durability. We have shells! 🐚', 'Drop tower, crush press, heat and sand-blast chamber, shell-armor workshop, and the Test Yard out back. Luna, Pi-rat and Snowie even brought their gadgets to get shell-tested!', 'My family lives in the Burrows: Mama, Papa and Gramps. My little brother Pebble is… hmm, where IS Pebble?') };
+      if (n === 1) return { lines: L('YOU CAME! Welcome to my hometown! Everybody here calls me Torty.', 'And this is MY company: TORTUGA TECH SPOOKY LAB! We test things and make them tougher. We know durability. We have shells! 🐚', 'Drop tower, crush press, heat and sand-blast chamber, shell-armor workshop, and the Test Yard out back. Luna, Pi-rat and Snowie even brought their gadgets to get shell-tested!', 'My family lives in the Burrows: Mama, Papa and Gramps. My little brother Pebble is… hmm, where IS Pebble?') };
       if (S.flags.tough && !S.badges.intern) return { lines: L('You shell-tested ALL THREE Ratita gadgets? Plato told me. That\'s Tortuga-level work!', 'Here: your official Tortuga Tech hard hat. Welcome to the team, intern!'), fx: () => { G.giveHat('hardhat'); G.badge('intern'); } };
       if (q === 1) return { lines: L(cyc(['Our lab built the Moon Lantern\'s case. Drop-proof, crush-proof, heat-proof. Nobody could BREAK it…', '…but it has a tiny latch. Only a few of us know the trick. I showed it to Pebble once. Hmm!'])) };
       if (q >= 4) return { lines: L(cyc(['Pebble borrowed the Moon Lantern to warm Gramps\' bath. That\'s SO him.', 'Next product: a Pebble-proof latch. Kidding! Mostly.', 'Thanks for helping my town. You\'re officially an honorary tortoise!'])) };

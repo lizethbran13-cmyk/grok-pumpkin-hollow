@@ -1,13 +1,13 @@
 // Grok Pumpkin Hollow: Martina "Torty"'s desert-oasis hometown. A palm-ringed Pumpkin Square, Spooky Street, the Burrows (homes),
 // Haunted Hill, the Broomstick Racetrack, the Pumpkin Patch and the Bat Cliffs edge. 18 enterable buildings, each its own
 // culled region; outdoors batch into big merged chunks, tiny decor goes into far-culled "detail" chunks. All real 3D geometry.
-import { tortuga } from './tortuga.js?v=ph1';
-import { districts } from './districts.js?v=ph1';
+import { tortuga } from './tortuga.js?v=ph2';
+import { districts } from './districts.js?v=ph2';
 import * as THREE from 'three';
-import * as TH from './theme.js?v=ph1';
-import * as K from './kit.js?v=ph1';
-import { interiors } from './interiors.js?v=ph1';
-import { underground } from './under.js?v=ph1';
+import * as TH from './theme.js?v=ph2';
+import * as K from './kit.js?v=ph2';
+import { interiors } from './interiors.js?v=ph2';
+import { underground } from './under.js?v=ph2';
 const { wall, D, G, floor, ceiling, sign3d, rbox, rcyl, lathe, sph, cyl, cone, torus, capsule, tube, leaf, star, heart, blobGeo, pick } = K;
 const R = K.R, PI = Math.PI; let I = null;
 export const FL = 0.02;
@@ -198,7 +198,7 @@ function ground(w) {
     w.addFn('g', dg, (c, x, y, z) => { const r = Math.hypot(x, z), ring = Math.min(14, Math.floor(r / 2.2)), n = 16 + ring * 4, k = Math.floor(((Math.atan2(z, x) + PI * 2) % (PI * 2)) / (PI * 2 / n)); c.setHex(tc(ring, k)); if (y < 0.03) c.multiplyScalar(0.82); }, 0, 0.0, 0); }
   w.add('m', torus(0.012, 96), 0xc98a4a, 0, 0.02, 0, PI / 2, 0, 0, 33, 33, 12);
 }
-// ------------------------------------------------------------------------------------------------ OASIS SQUARE
+// ------------------------------------------------------------------------------------------------ PUMPKIN SQUARE
 function square(w) { const S = w.spots;
   // pond: sandy bowl, water, stone rim, lily pads, a little rock waterfall
   S.pond = [0, 0, 9.5, 7]; w.add('m', lathe([[0, 0], [1, 0.02], [1.02, 0.42]], 64, 'pondBowl'), 0xd9b27a, 0, -0.6, 0, 0, 0, 0, 9.6, 1, 7.1);
@@ -224,7 +224,7 @@ function square(w) { const S = w.spots;
   // carts, well, notice board, sandbox, outdoor café tables, express stop decor
   stall(w, -26, 6, PI / 2, 0xff5d8f, 0xffffff, 'fruit'); stall(w, 26, -6, -PI / 2, 0x2dd4bf, 0xffffff, 'flowers'); stall(w, -22, -22, PI / 4, 0xffb020, 0xffffff, 'lettuce'); stall(w, 22, 22, -3 * PI / 4, 0xa66bff, 0xffffff, 'shells');
   { const x = -26, z = -12; w.add('m', rcyl(1.3, 1.0, 0.15, 28), 0xc9b08a, x, 0, z); w.add('m', torus(0.25, 28), 0xb39770, x, 1.0, z, PI / 2, 0, 0, 1.2, 1.2, 0.8); w.add('e', new THREE.CircleGeometry(1.05, 28).rotateX(-PI / 2), 0x38bdf8, x, 0.8, z); [-1, 1].forEach((s) => w.add('m', rbox(0.18, 2.2, 0.18, 0.05), 0x7c4a1e, x + s * 1.2, 1.1, z)); w.add('m', prism(2.9, 0.9, 1.4), 0xb4533a, x, 2.2, z, 0, PI / 2, 0); w.add('m', lathe([[0, 0], [0.22, 0], [0.26, 0.4], [0, 0.4]], 16, 'bucket'), 0x8a5a32, x, 1.4, z); w.solid(x - 1.3, 0, z - 1.3, x + 1.3, 1.1, z + 1.3); S.well = [x, z]; }
-  { const T = w.tf(-10, 0, 25, PI); T.slab('m', 0x9a6a3e, 0, 0, 0, 3.4, 2.6, 0.25, 0.05); T.box('m', 0xf5deb3, 0, 1.0, 0.14, 3.0, 1.4, 0.04, 0.02); for (let i = 0; i < 6; i++) T.box('m', pick([0xfef3c7, 0xbfe9ff, 0xffd6e8, 0xd9f99d]), -1.1 + (i % 3) * 1.1, 1.15 + Math.floor(i / 3) * 0.65, 0.17, 0.8, 0.5, 0.01, 0.01); T.add('m', prism(3.8, 0.6, 0.6), 0xb4533a, 0, 2.6, 0); sign3d(w, 'TOWN NEWS', -10, 2.95, 24.6, PI, 0.14, 0xffffff, 0x7c2d12); }
+  { const T = w.tf(-10, 0, 25, PI); T.slab('m', 0x9a6a3e, 0, 0, 0, 3.4, 2.6, 0.25, 0.05); T.box('m', 0xf5deb3, 0, 1.0, 0.14, 3.0, 1.4, 0.04, 0.02); for (let i = 0; i < 6; i++) T.box('m', pick([0xfef3c7, 0xbfe9ff, 0xffd6e8, 0xd9f99d]), -1.1 + (i % 3) * 1.1, 1.15 + Math.floor(i / 3) * 0.65, 0.17, 0.8, 0.5, 0.01, 0.01); T.add('m', prism(3.8, 0.6, 0.6), 0xb4533a, 0, 2.6, 0); sign3d(w, 'HAUNTED HEADLINES', -10, 2.95, 24.6, PI, 0.14, 0xffffff, 0x7c2d12); }
   I({ kind: 'fun', x: -10, y: 0, z: 24, r: 2.4, label: '📰 Read the town news', msgs: ['📰 "SUNSET FESTIVAL TONIGHT! Bring a cushion. Bring patience."', '📰 "Broomstick Derby record: 4 minutes. Crowd: thrilled."', '📰 "Lost: one sun hat. Last seen blowing toward the Dunes."', '📰 "Library reminder: books are due back eventually. No rush."'] });
   { const x = 22, z = 10; w.add('m', rbox(4.2, 0.4, 3.2, 0.15), 0xc58b52, x, 0.2, z); w.add('m', rbox(3.8, 0.1, 2.8, 0.05), 0xf6dcae, x, 0.4, z); w.solid(x - 2.1, 0, z - 1.6, x + 2.1, 0.4, z + 1.6, { cam: false }); [[0xef4444, -1], [0x3b82f6, 0.6]].forEach(([c, o]) => { w.add('g', lathe([[0, 0], [0.24, 0], [0.32, 0.28], [0, 0.28]], 16, 'pail'), c, x + o, 0.45, z - 0.5); w.add('g', rbox(0.1, 0.5, 0.06, 0.02), c, x + o + 0.4, 0.55, z + 0.3, 0.5, 0, 0); }); for (let i = 0; i < 4; i++) w.add('m', lathe([[0, 0], [0.35, 0], [0.3, 0.3], [0.12, 0.45], [0, 0.45]], 14, 'castle'), 0xe8c48e, x - 1.2 + i * 0.7, 0.42, z + 0.6, 0, 0, 0, 0.6, 0.8, 0.6); }
   [[-8, 30], [8, 30]].forEach(([x, z]) => K.lampPost(w, x, z)); for (let i = 0; i < 12; i++) { const a = i / 12 * PI * 2; K.lampPost(w, Math.cos(a) * 31, Math.sin(a) * 31); }
@@ -242,16 +242,16 @@ function square(w) { const S = w.spots;
     [-0.85, 0.85].forEach((o) => { for (let k = 0; k < 4; k++) w.add('m', cyl(8), 0x7c4a1e, x + o, -0.6, z0 + 0.2 + k * 1.4, 0, 0, 0, 0.08, 1.4, 0.08); w.add('m', rbox(0.08, 0.08, z1 - z0 - 0.4, 0.03), 0x9a6a3e, x + o, 0.75, (z0 + z1) / 2 - 0.2); for (let k = 0; k < 4; k++) w.add('m', cyl(8), 0x9a6a3e, x + o, 0.15, z0 + 0.2 + k * 1.4, 0, 0, 0, 0.05, 0.6, 0.05); });
     w.solid(x - 0.9, 0, z0, x + 0.9, 0.16, z1, { floor: true }); w.add('x', cyl(6), 0x7c4a1e, x + 0.5, 0.5, z0 + 0.4, 0.6, 0, 0.3, 0.02, 1.6, 0.02); S.fishLine = [x + 0.9, -0.2, z0 - 0.6]; tcrate(w, x - 0.4, 0.16, z0 + 1.2, 0.5, 0x9a6a3e, 'none'); }
   { const T = w.tf(12, 0, -13, -0.7); T.slab('m', 0xfef3c7, 0, 0.5, 0, 1.8, 0.9, 1.0, 0.12); T.slab('g', 0xffd23f, 0, 1.38, 0, 1.9, 0.08, 1.1, 0.04); [-1, 1].forEach((s2) => { T.add('m', torus(0.3, 20), 0xef4444, s2 * 0.7, 0.32, 0.52, 0, 0, 0, 0.3, 0.3, 0.3); T.add('x', cyl(6), 0xffffff, s2 * 0.85, 1.4, -0.45, 0, 0, 0, 0.03, 1.2, 0.03); });
-    T.add('f', rbox(2.1, 0.08, 1.4, 0.03), 0xffd23f, 0, 2.6, 0, 0.12, 0, 0); for (let k = 0; k < 3; k++) T.add('e', lathe([[0, 0], [0.16, 0], [0.18, 0.5], [0, 0.5]], 16, 'jug'), [0xfff27a, 0xff9fd0, 0x9cf27a][k], -0.55 + k * 0.55, 1.42, 0.1); T.solid(-0.95, 0, -0.55, 0.95, 1.4, 0.55); sign3d(w, 'CACTUS LEMONADE', 12.4, 2.3, -12.4, -0.7, 0.12, 0xdb2777, 0xfff7ed); }
+    T.add('f', rbox(2.1, 0.08, 1.4, 0.03), 0xffd23f, 0, 2.6, 0, 0.12, 0, 0); for (let k = 0; k < 3; k++) T.add('e', lathe([[0, 0], [0.16, 0], [0.18, 0.5], [0, 0.5]], 16, 'jug'), [0xfff27a, 0xff9fd0, 0x9cf27a][k], -0.55 + k * 0.55, 1.42, 0.1); T.solid(-0.95, 0, -0.55, 0.95, 1.4, 0.55); sign3d(w, 'WITCH BREW LEMONADE', 12.4, 2.3, -12.4, -0.7, 0.12, 0xdb2777, 0xfff7ed); }
   { const x = -12.5, z = -11.5; [-0.4, 0.4].forEach((o) => w.add('m', cyl(6), 0x9a6a3e, x + o, 0, z, -0.15, 0, o * 0.3, 0.04, 1.7, 0.04)); w.add('m', cyl(6), 0x9a6a3e, x, 0, z - 0.4, 0.35, 0, 0, 0.04, 1.6, 0.04); w.add('m', rbox(1.0, 0.75, 0.05, 0.02), 0xffffff, x, 1.35, z + 0.05, -0.15, 0, 0);
     for (let k = 0; k < 6; k++) w.add('e', sph(8), SUN[k], x - 0.3 + (k % 3) * 0.3, 1.2 + Math.floor(k / 3) * 0.3, z + 0.1, 0, 0, 0, 0.1, 0.07, 0.02); w.add('l', sph(10), 0x38bdf8, x + 0.2, 1.55, z + 0.1, 0, 0, 0, 0.18, 0.08, 0.02, 0.2); }
   for (let i = 0; i < 8; i++) { const a = i / 8 * PI * 2; claypot(w, Math.cos(a) * 16.6, Math.sin(a) * 15.2, 0.9 + (i % 3) * 0.15, SUN[i] === 0xffd23f ? 0xc8693c : [0xc8693c, 0x2dd4bf, 0xe2733f, 0x3b82f6][i % 4], ['flower', 'cactus', 'flower', 'agave'][i % 4]); }
   // sun shells around the square
   [[0, 0.9, -10.5], [-14, 1.2, 0], [14, 1.2, 0], [0, 7.6, -30], [-26, 1.6, -12], [22, 0.9, 10], [-19, 1.4, 19], [26, 1.2, -6]].forEach((p) => sunShell(w, ...p));
 }
-// ------------------------------------------------------------------------------------------------ MARKET STREET
+// ------------------------------------------------------------------------------------------------ SPOOKY STREET
 function market(w) { const S = w.spots;
-  { const x = 31; [-6.5, 6.5].forEach((z) => { saguaro(w, x, z, 1.5); }); w.add('m', torus(0.35, 40, PI), 0x3aa655, x, 4.6, 0, 0, PI / 2, 0, 6.2, 2.4, 1.4); for (let i = 0; i < 18; i++) { const a = i / 17 * PI; w.add('g', sph(10), SUN[i % 8], x, 4.6 + Math.sin(a) * 2.4 * 6.2 / 6.2 * 1.0, Math.cos(a) * 6.2, 0, 0, 0, 0.32); } sign3d(w, 'MARKET STREET', x + 0.2, 5.6, 0, PI / 2, 0.5, 0xffffff, 0x16a34a); }
+  { const x = 31; [-6.5, 6.5].forEach((z) => { saguaro(w, x, z, 1.5); }); w.add('m', torus(0.35, 40, PI), 0x3aa655, x, 4.6, 0, 0, PI / 2, 0, 6.2, 2.4, 1.4); for (let i = 0; i < 18; i++) { const a = i / 17 * PI; w.add('g', sph(10), SUN[i % 8], x, 4.6 + Math.sin(a) * 2.4 * 6.2 / 6.2 * 1.0, Math.cos(a) * 6.2, 0, 0, 0, 0.32); } sign3d(w, 'SPOOKY STREET', x + 0.2, 5.6, 0, PI / 2, 0.5, 0xffffff, 0x16a34a); }
   for (let x = 40; x <= 118; x += 13) { lanternString(w, [[x, 6, -8.5], [x + 3, 5, 0], [x, 6, 8.5]], SUN, 9); w.add('x', cyl(10), 0x7c4a1e, x, 0, -8.5, 0, 0, 0, 0.12, 6.2, 0.12); w.add('x', cyl(10), 0x7c4a1e, x, 0, 8.5, 0, 0, 0, 0.12, 6.2, 0.12); w.solid(x - 0.15, 0, -8.65, x + 0.15, 6, -8.35, { cam: false }); w.solid(x - 0.15, 0, 8.35, x + 0.15, 6, 8.65, { cam: false }); }
   stall(w, 46, -8, 0, 0xff5d8f, 0xffffff, 'fruit'); stall(w, 77, -8, 0, 0x2dd4bf, 0xfff1d6, 'shells'); stall(w, 97, -8, 0, 0xffb020, 0xffffff, 'pots'); stall(w, 68, 8, PI, 0xa66bff, 0xffffff, 'flowers'); stall(w, 46, 8, PI, 0x4ade80, 0xffffff, 'lettuce'); stall(w, 96, 8, PI, 0xff8a3d, 0xffffff, 'fruit'); stall(w, 112, 8, PI, 0x38bdf8, 0xffffff, 'shells');
   for (let i = 0; i < 16; i++) { const x = 36 + i * 5.4, z = i % 2 ? -7.6 : 7.6; if ([46, 77, 97, 68, 96, 112].some((q) => Math.abs(q - x) < 2.6)) continue; claypot(w, x, z, 0.9, pick([0xc8693c, 0x2dd4bf, 0x3b82f6, 0xffb020]), pick(['flower', 'cactus', 'agave'])); }
@@ -265,9 +265,9 @@ function market(w) { const S = w.spots;
   [[60, 1.2, -8.4], [90, 1.3, 8.3], [118, 1.2, 0], [84, 0.8, 40], [104, 1.2, 25]].forEach((p) => sunShell(w, ...p));
 }
 function PR_tools(w, x, z) { w.add('m', rbox(1.4, 0.12, 0.6, 0.03), 0x9a6a3e, x, 0.06, z); [0, 0.4, 0.8].forEach((o, i) => { w.add('m', cyl(8), 0x7c4a1e, x - 0.5 + o, 0.15, z, 0, 0, PI / 2, 0.03, 0.6, 0.03); w.add('f', rbox(0.15, 0.12, 0.1, 0.03), [0xef4444, 0xffd23f, 0x3b82f6][i], x - 0.2 + o, 0.15, z); }); }
-// ------------------------------------------------------------------------------------------------ THE BURROWS (homes)
+// ------------------------------------------------------------------------------------------------ HOLLOW LANE (homes)
 function burrows(w) { const S = w.spots;
-  sign3d(w, 'THE BURROWS', -32, 3.0, 0, -PI / 2, 0.42, 0xffffff, 0xb45309); w.add('m', cyl(10), 0x7c4a1e, -32.1, 0, -1.6, 0, 0, 0, 0.12, 3.4, 0.12); w.add('m', cyl(10), 0x7c4a1e, -32.1, 0, 1.6, 0, 0, 0, 0.12, 3.4, 0.12);
+  sign3d(w, 'HOLLOW LANE', -32, 3.0, 0, -PI / 2, 0.42, 0xffffff, 0xb45309); w.add('m', cyl(10), 0x7c4a1e, -32.1, 0, -1.6, 0, 0, 0, 0.12, 3.4, 0.12); w.add('m', cyl(10), 0x7c4a1e, -32.1, 0, 1.6, 0, 0, 0, 0.12, 3.4, 0.12);
   // Torty's family front garden: low adobe wall, mailbox, Mama's 4 flower beds (plant marigolds), swing bench, veggie patch
   const aw = (axis, at, a, b, h = 0.9, c = 0xe8b07a) => { if (axis === 'x') w.slab('m', c, (a + b) / 2, 0, at, b - a, h, 0.45, 0.16, { cam: false }); else w.slab('m', c, at, 0, (a + b) / 2, 0.45, h, b - a, 0.16, { cam: false }); };
   aw('x', -7.6, -72, -62); aw('x', -7.6, -56, -46); aw('z', -72, -9.8, -7.6); aw('z', -46, -9.8, -7.6);
@@ -289,7 +289,7 @@ function burrows(w) { const S = w.spots;
 }
 function lettucePatch(w, x, z, nx, nz) { w.add('m', rbox(nx * 1.1 + 0.4, 0.22, nz * 1.1 + 0.4, 0.08), 0x7a4a26, x, 0.11, z); w.solid(x - nx * 0.55 - 0.2, 0, z - nz * 0.55 - 0.2, x + nx * 0.55 + 0.2, 0.22, z + nz * 0.55 + 0.2, { cam: false });
   w.detail = true; for (let i = 0; i < nx; i++) for (let j = 0; j < nz; j++) lettuce(w, x - (nx - 1) * 0.55 + i * 1.1, 0.22, z - (nz - 1) * 0.55 + j * 1.1, 0.9); w.detail = false; }
-// ------------------------------------------------------------------------------------------------ HOT SPRING HILL
+// ------------------------------------------------------------------------------------------------ HAUNTED HILL
 function hill(w) { const S = w.spots;
   // terraces climbing north between the spa and the observatory
   const terr = [[0, -100, 0], [1.2, -109, 0.5], [2.4, -120, 1]]; const X0 = -8, X1 = 12;
@@ -303,14 +303,14 @@ function hill(w) { const S = w.spots;
   for (let i = 0; i < 3; i++) { const T = w.tf(-6 + i * 2.4, 0, -104.5, 0.2); T.slab('m', 0xc58b52, 0, 0, 0, 0.9, 0.3, 2.0, 0.05, { cam: false }); T.box('f', SUN[i * 2], 0, 0.3, 0.2, 0.8, 0.08, 1.4, 0.04); T.add('f', rbox(0.8, 0.08, 0.8, 0.04), SUN[i * 2], 0, 0.62, -0.75, 0.9, 0, 0); }
   [[-6, -106], [10, -102]].forEach(([x, z], i) => { w.add('x', cyl(8), 0xd1d5db, x, 0, z, 0, 0, 0, 0.05, 2.6, 0.05); for (let k = 0; k < 8; k++) w.add('f', cone(3), k % 2 ? 0xff5d8f : 0xffffff, x, 3.0, z, 0, k / 8 * PI * 2, 0, 1.8, 0.7, 0.7); });
   for (let i = 0; i < 4; i++) palm(w, X0 - 2 + (i % 2) * (X1 - X0 + 4), -102 - Math.floor(i / 2) * 16, 0.95, 0.4);
-  sign3d(w, 'HOT SPRINGS', 2, 2.0, -96.5, 0, 0.3, 0xffffff, 0x0f766e); w.add('m', cyl(10), 0x7c4a1e, 0.2, 0, -96.6, 0, 0, 0, 0.1, 2.0, 0.1); w.add('m', cyl(10), 0x7c4a1e, 3.8, 0, -96.6, 0, 0, 0, 0.1, 2.0, 0.1);
+  sign3d(w, 'WITCH’S CAULDRON SPAS', 2, 2.0, -96.5, 0, 0.3, 0xffffff, 0x0f766e); w.add('m', cyl(10), 0x7c4a1e, 0.2, 0, -96.6, 0, 0, 0, 0.1, 2.0, 0.1); w.add('m', cyl(10), 0x7c4a1e, 3.8, 0, -96.6, 0, 0, 0, 0.1, 2.0, 0.1);
   // backdrop mesas
   for (let i = 0; i < 9; i++) { const x = -60 + i * 15; if (x < 30) mesa(w, x, -127, 14, 10 + (i % 3) * 3, 8, pick([0xd9824a, 0xc96f3a, 0xe08f55])); }
   for (let i = 0; i < 8; i++) w.add('m', sph(24), pick([0xe8c48c, 0xdfb57c, 0xeccd98]), 34 + i * 13, -2, -131, 0, 0, 0, 9.5, 8 + (i % 3) * 2, 8);
   [[2, 3.6, -126.5], [-5, 1.0, -104.5], [18, 1.0, -92], [-30, 1.2, -90], [9, 2.0, -110]].forEach((p) => sunShell(w, ...p));
   w.secrets.push({ id: 'peak', x: 9, y: 2.4, z: -125, r: 2.0, msg: '♨️ Secret: the tiny top-top spring! Perfect for one very small tortoise' });
 }
-// ------------------------------------------------------------------------------------------------ SLOW-MO RACETRACK
+// ------------------------------------------------------------------------------------------------ BROOMSTICK RACETRACK
 export const TRACK = { cx: 36, cz: 94, rx: 30, rz: 18 };
 function track(w) { const { cx, cz, rx, rz } = TRACK; const S = w.spots;
   const ring = (r0, r1, col, y, seg = 160) => { const g = new THREE.RingGeometry(r0, r1, seg, 1).rotateX(-PI / 2); w.add('m', g, col, cx, y, cz, 0, 0, 0, rx / 18, 1, rz / 18); };
@@ -318,7 +318,7 @@ function track(w) { const { cx, cz, rx, rz } = TRACK; const S = w.spots;
   w.add('m', new THREE.CircleGeometry(15.5, 96).rotateX(-PI / 2), 0x7cc96a, cx, 0.015, cz, 0, 0, 0, rx / 18, 1, rz / 18);
   // start/finish line (south side) + checkered gate + scoreboard in the infield
   { const z = cz + rz * 1.0; for (let i = 0; i < 10; i++) for (let j = 0; j < 2; j++) w.add('m', rbox(0.9, 0.02, 0.45, 0.01), (i + j) % 2 ? 0x111827 : 0xffffff, cx - 4.5 + i * 1.0 + 0.5, 0.06, z - 1.6 + j * 0.45 + 2.0, 0, 0, 0, 1, 1, 1);
-    [-5.6, 5.6].forEach((o) => { w.add('m', rbox(0.5, 5.2, 0.5, 0.1), 0xffffff, cx + o, 2.6, z + 0.6); w.solid(cx + o - 0.25, 0, z + 0.35, cx + o + 0.25, 5.2, z + 0.85); }); for (let i = 0; i < 12; i++) w.add('g', rbox(0.95, 0.95, 0.3, 0.05), i % 2 ? 0x111827 : 0xffffff, cx - 5.2 + i * 0.95, 5.0, z + 0.6); sign3d(w, 'SLOW-MO DERBY', cx, 5.8, z + 0.6, PI, 0.42, 0xffffff, 0xe2733f); S.finish = [cx, z]; }
+    [-5.6, 5.6].forEach((o) => { w.add('m', rbox(0.5, 5.2, 0.5, 0.1), 0xffffff, cx + o, 2.6, z + 0.6); w.solid(cx + o - 0.25, 0, z + 0.35, cx + o + 0.25, 5.2, z + 0.85); }); for (let i = 0; i < 12; i++) w.add('g', rbox(0.95, 0.95, 0.3, 0.05), i % 2 ? 0x111827 : 0xffffff, cx - 5.2 + i * 0.95, 5.0, z + 0.6); sign3d(w, 'BROOMSTICK DERBY', cx, 5.8, z + 0.6, PI, 0.42, 0xffffff, 0xe2733f); S.finish = [cx, z]; }
   { const T = w.tf(cx, 0, cz - 4, PI); T.slab('m', 0x1f2937, 0, 0, 0, 7, 4.2, 0.6, 0.1); T.box('l', 0x111827, 0, 1.6, 0.32, 6.2, 2.2, 0.02, 0.05); for (let i = 0; i < 4; i++) T.box('l', [0xef4444, 0x3b82f6, 0xffd23f, 0x4ade80][i], -2.2 + i * 1.45, 2.2, 0.35, 1.0, 1.0, 0.02, 0.1, 0.4); T.box('m', 0x7c4a1e, -3, 0, 0, 0.3, 1.6, 0.3, 0.05); T.box('m', 0x7c4a1e, 3, 0, 0, 0.3, 1.6, 0.3, 0.05); }
   w.detail = true; for (let i = 0; i < 70; i++) { const a = R() * PI * 2, r = R() * 0.8; const x = cx + Math.cos(a) * r * 14 * rx / 18, z = cz + Math.sin(a) * r * 14 * rz / 18; if (Math.abs(z - (cz - 4)) < 1.5 && Math.abs(x - cx) < 4.5) continue; w.add('g', sph(8), pick([0xff5d8f, 0xffd23f, 0xffffff, 0xa66bff, 0xff8a3d]), x, 0.25, z, 0, 0, 0, 0.16); w.add('g', sph(6), 0x3fae5a, x, 0.12, z, 0, 0, 0, 0.2, 0.1, 0.2); } w.detail = false;
   // low rail with gaps (outer edge)
@@ -333,12 +333,12 @@ function track(w) { const { cx, cz, rx, rz } = TRACK; const S = w.spots;
   for (let i = 0; i < 6; i++) { const a = i / 6 * PI * 2 + 0.4; palm(w, cx + Math.cos(a) * rx * 1.45, cz + Math.sin(a) * rz * 1.5, 0.9, 0.3); }
   [[cx, 0.8, cz - 8], [cx + rx, 0.8, cz], [cx - rx, 0.8, cz], [cx + 9, 2.0, cz - rz * 1.17 - 8.9], [-20, 1.0, 96], [cx, 0.8, cz + 10]].forEach((p) => sunShell(w, ...p));
 }
-// ------------------------------------------------------------------------------------------------ LETTUCE FARM
+// ------------------------------------------------------------------------------------------------ PUMPKIN PATCH
 function farm(w) { const S = w.spots; S.field = [];
   for (let r = 0; r < 9; r++) { const z = 70 + r * 6; w.add('m', rbox(44, 0.25, 2.2, 0.1), 0x7a4a26, -100, 0.06, z); for (let i = 0; i < 30; i++) S.field.push([-121 + i * 1.45, 0.2, z + (i % 2 - 0.5) * 0.4, (i * 7 + r) % 3]); }
   // farm mini-game plots (6) beside the barn
   for (let i = 0; i < 6; i++) { const x = -80 + (i % 3) * 3.0, z = 46 + Math.floor(i / 3) * 3.4; w.add('m', rbox(2.4, 0.28, 2.4, 0.12), 0xb98545, x, 0.14, z); w.add('m', rbox(2.1, 0.08, 2.1, 0.05), 0x5b3a1e, x, 0.29, z); w.solid(x - 1.2, 0, z - 1.2, x + 1.2, 0.28, z + 1.2, { cam: false }); w.plots.push([x, 0.33, z]); }
-  sign3d(w, 'LETTUCE PATCH', -77, 1.9, 43.2, PI, 0.2, 0xffffff, 0x16a34a); w.add('m', cyl(8), 0x7c4a1e, -78.6, 0, 43.3, 0, 0, 0, 0.08, 1.9, 0.08); w.add('m', cyl(8), 0x7c4a1e, -75.4, 0, 43.3, 0, 0, 0, 0.08, 1.9, 0.08);
+  sign3d(w, 'PUMPKIN PATCH', -77, 1.9, 43.2, PI, 0.2, 0xffffff, 0x16a34a); w.add('m', cyl(8), 0x7c4a1e, -78.6, 0, 43.3, 0, 0, 0, 0.08, 1.9, 0.08); w.add('m', cyl(8), 0x7c4a1e, -75.4, 0, 43.3, 0, 0, 0, 0.08, 1.9, 0.08);
   // silo, windmill tower (blades animate), water trough, hay bales, friendly scarecrow, wagon, fences
   { const x = -110, z = 48; w.add('m', rcyl(2.6, 9, 0.2, 32), 0xe5e7eb, x, 0, z); for (let k = 0; k < 6; k++) w.add('x', torus(0.05, 40), 0x94a3b8, x, 1.2 + k * 1.4, z, PI / 2, 0, 0, 2.62, 2.62, 1); const pr = []; for (let k = 0; k <= 10; k++) { const t = k / 10 * PI / 2; pr.push([Math.max(0.0001, Math.cos(t) * 2.7), Math.sin(t) * 1.8]); } pr[pr.length - 1][0] = 0; w.add('g', lathe(pr, 32, 'siloTop'), 0xb4533a, x, 9, z); w.solid(x - 2.6, 0, z - 2.6, x + 2.6, 11, z + 2.6); }
   { const x = -64, z = 56; for (let k = 0; k < 4; k++) { const a = k / 4 * PI * 2 + PI / 4; w.add('m', cyl(8), 0x7c4a1e, x + Math.cos(a) * 1.4, 0, z + Math.sin(a) * 1.4, Math.sin(a) * 0.12, 0, -Math.cos(a) * 0.12, 0.1, 9, 0.1); } w.add('m', rbox(1.4, 0.8, 1.4, 0.1), 0xb4533a, x, 9.2, z); S.mill = [x, 9.4, z + 0.9]; w.solid(x - 1.5, 0, z - 1.5, x + 1.5, 9.6, z + 1.5); }
@@ -351,7 +351,7 @@ function farm(w) { const S = w.spots; S.field = [];
     w.secrets.push({ id: 'log', x, y: 0, z, r: 1.3, msg: '🪵 Secret: a cozy napping log. Someone left a tiny pillow!' }); w.add('f', rbox(0.6, 0.15, 0.4, 0.07), 0xff9fd0, x + 0.5, 0.1, z); }
   [[-80, 1.0, 49.7], [-110, 11.6, 48], [-64, 1.0, 112], [-100, 1.6, 66], [-120, 1.0, 120], [-90, 1.0, 100]].forEach((p) => sunShell(w, ...p));
 }
-// ------------------------------------------------------------------------------------------------ DUNES & CANYON
+// ------------------------------------------------------------------------------------------------ BAT CLIFFS
 function dunes(w) { const S = w.spots;
   const dune = (x, z, rx, rz, h) => { const pr = []; for (let k = 0; k <= 14; k++) { const t = k / 14 * PI / 2; pr.push([Math.max(0.0001, Math.cos(t)), Math.sin(t) ** 1.4]); } pr[pr.length - 1][0] = 0; w.add('m', lathe(pr, 40, 'dune'), 0xf3cf94, x, -0.02, z, 0, 0, 0, rx, h, rz);
     for (let i = 0; i < 4; i++) w.add('m', torus(0.06, 40, PI * 0.9), 0xe6b97a, x, h * (0.2 + i * 0.18), z, PI / 2, 0, 0.3 * i, rx * (0.96 - i * 0.18), rz * (0.96 - i * 0.18), 0.2); w.solid(x - rx * 0.7, 0, z - rz * 0.7, x + rx * 0.7, h * 0.8, z + rz * 0.7, { cam: false }); };
@@ -384,7 +384,7 @@ function border(w) { for (let i = 0; i < 18; i++) { mesa(w, -126 + i * 14.6, 128
 function expressStops(w) { w.region = 'out'; STOPS.forEach(([x, z, yaw, nm], i) => { const T = w.tf(x, 0, z, yaw); T.slab('m', 0xe8b07a, 0, 0, -1.2, 3.4, 0.25, 1.4, 0.08, { cam: false }); [-1.5, 1.5].forEach((s) => T.box('m', 0x7c4a1e, s, 0.25, -1.6, 0.15, 2.6, 0.15, 0.04)); T.add('m', prism(3.8, 0.7, 1.4), 0x2563eb, 0, 2.85, -1.4);
     T.box('m', 0xffb020, 0, 0.25, -1.0, 2.6, 0.45, 0.6, 0.06); T.add('m', cyl(10), 0x334155, 2.2, 0, 0.2, 0, 0, 0, 0.07, 2.8, 0.07); T.add('g', rcyl(0.55, 0.1, 0.03, 24), 0x2563eb, 2.2, 2.9, 0.2, PI / 2, 0, 0); T.add('g', rcyl(0.45, 0.11, 0.03, 24), 0xffffff, 2.2, 2.9, 0.22, PI / 2, 0, 0);
     T.add('g', sph(10), 0x8b5e3c, 2.2, 2.92, 0.36, 0, 0, 0, 0.18, 0.12, 0.05); T.add('g', cone(8), 0xffd23f, 2.42, 2.95, 0.36, 0, 0, -PI / 2, 0.06, 0.18, 0.04);
-    const p = T.P(0, 0, 0.4); sign3d(w, 'ROADRUNNER EXPRESS', T.P(0, 0, -1.4)[0], 3.75, T.P(0, 0, -1.4)[2], yaw, 0.16, 0xffffff, 0x2563eb);
+    const p = T.P(0, 0, 0.4); sign3d(w, 'GHOST TRAIN', T.P(0, 0, -1.4)[0], 3.75, T.P(0, 0, -1.4)[2], yaw, 0.16, 0xffffff, 0x2563eb);
     I({ kind: 'express', i, x: p[0], y: 0, z: p[2], r: 2.6, label: '🐦 Ghost Train (fast travel)' }); w.spots.stops = STOPS; }); }
 // ------------------------------------------------------------------------------------------------ building exteriors
 function shells(w) { const B = (o) => building(w, o);
@@ -396,19 +396,19 @@ function shells(w) { const B = (o) => building(w, o);
   B({ id: 'library', x0: -46, z0: -58, x1: -28, z1: -42, ceil: 5.2, ext: 0xe0a86a, int: 0xf6e3c6, band: 0x3b82f6, floor: ['wood', 0x9b6a42], door: { side: 's', a: -39, b: -35 }, curtain: 0x1e3a8a, shutters: 0x1e3a8a, li: 22, sign: ['LIBRARY', 0.42, 0xffffff, 0x1e3a8a], style: 'dome', domeR: 3.0, domeCol: 0x3b82f6 });
   B({ id: 'cafe', x0: 28, z0: -58, x1: 46, z1: -42, ceil: 5.0, ext: 0xf6d38f, int: 0xfff4dc, band: 0x4ade80, floor: ['tile', 0xffffff, 0x86efac, 1.2], door: { side: 's', a: 35, b: 39 }, curtain: 0x16a34a, shutters: 0x16a34a, li: 22, awning: [0x4ade80, 0xffffff], sign: ['LETTUCE LEAF CAFE', 0.34, 0xffffff, 0x16a34a] });
   B({ id: 'post', x0: -46, z0: 40, x1: -30, z1: 54, ceil: 5.0, ext: 0xe8b07a, int: 0xfdf0dc, band: 0x2563eb, floor: ['tile', 0xfef3c7, 0xbfdbfe, 1.4], door: { side: 'n', a: -40, b: -36 }, shutters: 0x2563eb, li: 22, awning: [0x2563eb, 0xffffff], sign: ['POST OFFICE', 0.4, 0xffffff, 0x2563eb] });
-  B({ id: 'inn', x0: 28, z0: 40, x1: 46, z1: 56, ceil: 5.0, ext: 0xf2b8a0, int: 0xfff1e6, band: 0xa66bff, floor: ['wood', 0xb07a4a], door: { side: 'n', a: 35, b: 39 }, curtain: 0x7c3aed, shutters: 0x7c3aed, li: 22, sign: ['SLEEPY SHELL INN', 0.36, 0xffffff, 0x7c3aed], style: 'dome', domeR: 2.6, domeCol: 0xa66bff, domeAt: [42, 51] });
-  B({ id: 'market', x0: 50, z0: -28, x1: 74, z1: -10, ceil: 6.2, ext: 0xf6c27a, int: 0xfff1d6, band: 0xff5d8f, floor: ['tile', 0xf5e1bd, 0xe9c48e, 1.6], door: { side: 's', a: 59, b: 65, h: 4.2 }, winTop: 4.6, winBot: 1.3, shutters: 0xe11d48, li: 34, awning: [0xff5d8f, 0xffffff], sign: ['CACTUS-FLOWER MARKET', 0.4, 0xffffff, 0x16a34a] });
+  B({ id: 'inn', x0: 28, z0: 40, x1: 46, z1: 56, ceil: 5.0, ext: 0xf2b8a0, int: 0xfff1e6, band: 0xa66bff, floor: ['wood', 0xb07a4a], door: { side: 'n', a: 35, b: 39 }, curtain: 0x7c3aed, shutters: 0x7c3aed, li: 22, sign: ['HAUNTED INN', 0.36, 0xffffff, 0x7c3aed], style: 'dome', domeR: 2.6, domeCol: 0xa66bff, domeAt: [42, 51] });
+  B({ id: 'market', x0: 50, z0: -28, x1: 74, z1: -10, ceil: 6.2, ext: 0xf6c27a, int: 0xfff1d6, band: 0xff5d8f, floor: ['tile', 0xf5e1bd, 0xe9c48e, 1.6], door: { side: 's', a: 59, b: 65, h: 4.2 }, winTop: 4.6, winBot: 1.3, shutters: 0xe11d48, li: 34, awning: [0xff5d8f, 0xffffff], sign: ['NIGHT MARKET', 0.4, 0xffffff, 0x16a34a] });
   B({ id: 'shellshop', x0: 80, z0: -24, x1: 94, z1: -10, ceil: 5.0, ext: 0xf9c9d6, int: 0xfff1f6, band: 0x38bdf8, floor: ['tile', 0xffffff, 0xbae6fd, 1.2], door: { side: 's', a: 85, b: 89 }, curtain: 0x0ea5e9, shutters: 0x0ea5e9, li: 22, awning: [0x38bdf8, 0xffffff], sign: ['THE SHELL SHOP', 0.36, 0xffffff, 0x0ea5e9] });
   B({ id: 'pottery', x0: 100, z0: -22, x1: 112, z1: -10, ceil: 4.8, ext: 0xd9824a, int: 0xf6e0c6, band: 0xffd23f, floor: ['wood', 0xa0703e], door: { side: 's', a: 104, b: 108 }, shutters: 0x0d9488, li: 20, sign: ['POTTERY', 0.38, 0xffffff, 0x7c2d12], style: 'dome', domeR: 2.0, domeCol: 0xc8693c });
-  B({ id: 'sweets', x0: 50, z0: 10, x1: 64, z1: 24, ceil: 4.8, ext: 0xffb3cf, int: 0xfff0f6, band: 0xffd23f, floor: ['tile', 0xffffff, 0xfbcfe8, 1.0], door: { side: 'n', a: 55, b: 59 }, curtain: 0xdb2777, shutters: 0xdb2777, li: 22, awning: [0xff5d8f, 0xffffff], sign: ['PRICKLY PEAR SWEETS', 0.32, 0xffffff, 0xdb2777] });
-  B({ id: 'fossil', x0: 72, z0: 10, x1: 92, z1: 28, ceil: 6.4, ext: 0xe8c9a0, int: 0xf8ecd8, band: 0x7c2d12, floor: ['marble', 0xf5ead8, 0xe3cfae, 2.4], door: { side: 'n', a: 79, b: 85, h: 4.2 }, winTop: 4.6, winBot: 1.5, li: 30, sign: ['FOSSIL & SHELL MUSEUM', 0.36, 0xffffff, 0x7c2d12], noPots: true });
+  B({ id: 'sweets', x0: 50, z0: 10, x1: 64, z1: 24, ceil: 4.8, ext: 0xffb3cf, int: 0xfff0f6, band: 0xffd23f, floor: ['tile', 0xffffff, 0xfbcfe8, 1.0], door: { side: 'n', a: 55, b: 59 }, curtain: 0xdb2777, shutters: 0xdb2777, li: 22, awning: [0xff5d8f, 0xffffff], sign: ['TRICK-OR-TREAT SWEETS', 0.32, 0xffffff, 0xdb2777] });
+  B({ id: 'fossil', x0: 72, z0: 10, x1: 92, z1: 28, ceil: 6.4, ext: 0xe8c9a0, int: 0xf8ecd8, band: 0x7c2d12, floor: ['marble', 0xf5ead8, 0xe3cfae, 2.4], door: { side: 'n', a: 79, b: 85, h: 4.2 }, winTop: 4.6, winBot: 1.5, li: 30, sign: ['MUSEUM OF MONSTERS', 0.36, 0xffffff, 0x7c2d12], noPots: true });
   B({ id: 'burrow', x0: -70, z0: -30, x1: -48, z1: -10, ceil: 4.8, wallH: 4.6, ext: 0xe8b07a, int: 0xfbe6c8, floor: ['wood', 0xb07a4a], door: { side: 's', a: -61, b: -57, h: 3.2 }, curtain: 0xff6fcf, shutters: 0xff6fcf, li: 20, lightCol: 0xffe2b8, style: 'mound', moundH: 4.0, chimney: [-53, -24], sign: ["TORTY'S FAMILY", 0.3, 0xffffff, 0xdb2777] });
   B({ id: 'shelby', x0: -94, z0: -26, x1: -78, z1: -10, ceil: 4.6, wallH: 4.4, ext: 0xe0a070, int: 0xfdecd2, floor: ['wood', 0xa0703e], door: { side: 's', a: -88, b: -84, h: 3.2 }, curtain: 0x22c55e, shutters: 0x22c55e, li: 20, style: 'mound', moundH: 3.4, chimney: [-81, -22], sign: ["SHELBY'S", 0.3, 0xffffff, 0x15803d] });
   B({ id: 'school', x0: -70, z0: 10, x1: -50, z1: 26, ceil: 4.8, ext: 0xffd166, int: 0xfffbea, band: 0xef4444, floor: ['wood', 0xc58b52], door: { side: 'n', a: -62, b: -58 }, curtain: 0xef4444, shutters: 0xef4444, li: 24, sign: ['SLOWPOKE SCHOOL', 0.36, 0xffffff, 0xef4444] });
   w.region = 'shell'; { const x = -68, z = 9; w.add('m', rbox(1.4, 1.4, 1.4, 0.2), 0xef4444, -52, 5.6, 18); w.add('x', lathe([[0, 0], [0.4, 0], [0.45, 0.5], [0, 0.6]], 16, 'bell'), 0xffd23f, -52, 5.0, 18); w.add('m', prism(1.8, 0.9, 1.8), 0xb4533a, -52, 6.3, 18); }
-  B({ id: 'spa', x0: -36, z0: -114, x1: -10, z1: -94, ceil: 5.6, ext: 0xf6e3c6, int: 0xeafcf8, band: 0x14b8a6, floor: ['tile', 0xe0f7f4, 0x99f6e4, 1.2], door: { side: 's', a: -25, b: -21, h: 3.8 }, curtain: 0x0f766e, shutters: 0x0f766e, li: 28, lightCol: 0xe8fffb, sign: ['HOT SPRING SPA', 0.42, 0xffffff, 0x0f766e], style: 'dome', domeR: 4.0, domeCol: 0x5eead4, domeAt: [-23, -104] });
-  B({ id: 'obs', x0: 14, z0: -114, x1: 30, z1: -98, ceil: 7.2, ext: 0xe9d5c0, int: 0xeef2ff, band: 0x6366f1, floor: ['tile', 0x1e1b4b, 0x312e81, 2.0], door: { side: 's', a: 20, b: 24, h: 3.6 }, winTop: 5.5, winBot: 1.6, li: 18, lightCol: 0xdde4ff, ceilCol: 0x1e1b4b, sign: ['SUN OBSERVATORY', 0.36, 0xffffff, 0x4338ca], style: 'tower', domeR: 5.2, domeCol: 0xf8fafc, noPots: true });
+  B({ id: 'spa', x0: -36, z0: -114, x1: -10, z1: -94, ceil: 5.6, ext: 0xf6e3c6, int: 0xeafcf8, band: 0x14b8a6, floor: ['tile', 0xe0f7f4, 0x99f6e4, 1.2], door: { side: 's', a: -25, b: -21, h: 3.8 }, curtain: 0x0f766e, shutters: 0x0f766e, li: 28, lightCol: 0xe8fffb, sign: ['WITCH’S BUBBLING SPA', 0.42, 0xffffff, 0x0f766e], style: 'dome', domeR: 4.0, domeCol: 0x5eead4, domeAt: [-23, -104] });
+  B({ id: 'obs', x0: 14, z0: -114, x1: 30, z1: -98, ceil: 7.2, ext: 0xe9d5c0, int: 0xeef2ff, band: 0x6366f1, floor: ['tile', 0x1e1b4b, 0x312e81, 2.0], door: { side: 's', a: 20, b: 24, h: 3.6 }, winTop: 5.5, winBot: 1.6, li: 18, lightCol: 0xdde4ff, ceilCol: 0x1e1b4b, sign: ['MOON OBSERVATORY', 0.36, 0xffffff, 0x4338ca], style: 'tower', domeR: 5.2, domeCol: 0xf8fafc, noPots: true });
   B({ id: 'club', x0: -30, z0: 74, x1: -12, z1: 90, ceil: 5.0, ext: 0xffffff, int: 0xfff7ed, band: 0xe2733f, floor: ['wood', 0xb07a4a], door: { side: 'e', a: 80, b: 84 }, shutters: 0xe2733f, li: 22, awning: [0x111827, 0xffffff], sign: ["RACERS' CLUBHOUSE", 0.32, 0xffffff, 0xe2733f] });
-  B({ id: 'barn', x0: -104, z0: 44, x1: -86, z1: 60, ceil: 6.6, wallH: 6.2, ext: 0xc2412d, int: 0xf3dcc0, trim: 0xffffff, frame: 0xffffff, floor: ['wood', 0x9a6a3e], door: { side: 'e', a: 49.5, b: 54.5, h: 4.6 }, winTop: 4.6, winBot: 2.2, li: 26, sign: ['LETTUCE BARN', 0.42, 0xffffff, 0x7f1d1d], style: 'gable', roofCol: 0x7f1d1d, roofH: 4.5, noPots: true });
+  B({ id: 'barn', x0: -104, z0: 44, x1: -86, z1: 60, ceil: 6.6, wallH: 6.2, ext: 0xc2412d, int: 0xf3dcc0, trim: 0xffffff, frame: 0xffffff, floor: ['wood', 0x9a6a3e], door: { side: 'e', a: 49.5, b: 54.5, h: 4.6 }, winTop: 4.6, winBot: 2.2, li: 26, sign: ['PUMPKIN BARN', 0.42, 0xffffff, 0x7f1d1d], style: 'gable', roofCol: 0x7f1d1d, roofH: 4.5, noPots: true });
   B({ id: 'green', x0: -80, z0: 70, x1: -66, z1: 82, ceil: 5.4, wallH: 4.2, ext: 0xffffff, int: 0xffffff, floor: ['tile', 0xc9a27a, 0xb98545, 1.0], door: { side: 'n', a: -75, b: -71, h: 3.0 }, li: 20, style: 'glass', roofH: 2.6 });
 }

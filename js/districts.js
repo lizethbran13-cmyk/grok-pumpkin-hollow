@@ -1,8 +1,8 @@
-// Two new districts: the OLD ADOBE QUARTER (north-west) and FIESTA PLAZA (between Spooky Street and the racetrack).
+// Two new districts: the ABANDONED VILLAGE (north-west) and MONSTER MASH PLAZA (between Spooky Street and the racetrack).
 // 5 more walk-in buildings, all prop-dense, real 3D geometry (Turbo look, no flat textures).
 import * as THREE from 'three';
-import * as K from './kit.js?v=ph1';
-import { building, claypot, tcrate, palm, lanternString, flagString, tortStatue, prickly, barrel, agave, sunShell, SUN, shade } from './town.js?v=ph1';
+import * as K from './kit.js?v=ph2';
+import { building, claypot, tcrate, palm, lanternString, flagString, tortStatue, prickly, barrel, agave, sunShell, SUN, shade } from './town.js?v=ph2';
 const { wall, D, sign3d, rbox, rcyl, lathe, sph, cyl, cone, torus, capsule, blobGeo, pick } = K;
 const R = K.R, PI = Math.PI, FL = 0.12;
 const art = (w, axis, at, c, y, W, H, side, k) => K.PR.frame(K.scaled(w, 0, FL, 0, 0.25), axis, (at + side * 0.25) / 0.25, c / 0.25, y / 0.25, W / 0.25, H / 0.25, side, k);
@@ -10,7 +10,7 @@ const lowTable = (w, x, z, r = 0.6, top = 0xc58b52) => { w.add('m', rcyl(r, 0.07
 const pouf = (w, x, z, c) => { w.add('f', rcyl(0.3, 0.32, 0.12, 20), c, x, FL, z); };
 const counter = (w, x0, x1, z, c1, c2) => { const L = x1 - x0, cx = (x0 + x1) / 2; w.add('m', rbox(L, 0.95, 0.8, 0.06), c1, cx, FL + 0.475, z); w.add('m', rbox(L + 0.1, 0.07, 0.9, 0.03), c2, cx, FL + 0.98, z); w.solid(x0, 0, z - 0.4, x1, 1.0, z + 0.4); };
 const shelfRow = (w, x, z, ry, W, col, fill) => { K.shelf(w, x, z, ry, W, 2.2, 0.5, col); for (let r = 0; r < 3; r++) for (let i = 0; i < Math.floor(W / 0.45); i++) { const t = -W / 2 + 0.3 + i * 0.45, px = x + Math.cos(ry) * t, pz = z - Math.sin(ry) * t; fill(px, FL + 0.55 + r * 0.62, pz, i + r * 7); } };
-// ------------------------------------------------------------------------------------------------ OLD ADOBE QUARTER
+// ------------------------------------------------------------------------------------------------ ABANDONED VILLAGE
 function quarter(w) { const S = w.spots, cx = -94, cz = -86;
   w.region = 'out'; K.floor(w, -114, -98, -74, -76, 'tile', 0.0, 0xe9c79a, 0xd8a877, 1.6); K.floor(w, -96, -58, -92, -36, 'tile', 0.0, 0xe8cfa6, 0xd9b98a, 1.4); K.floor(w, -110, -102, -106, -98, 'tile', 0.0, 0xe8cfa6, 0xd9b98a, 1.4);
   // plaza: tiered fountain with a tortoise on top, benches, palms, lantern strings, flower beds, market stalls
@@ -21,7 +21,7 @@ function quarter(w) { const S = w.spots, cx = -94, cz = -86;
     lanternString(w, [[-112, 3.6, -96], [-94, 3.0, -86], [-76, 3.6, -77]]); lanternString(w, [[-112, 3.6, -77], [-94, 3.0, -86], [-76, 3.6, -96]], [0xff5d8f, 0xffd23f, 0x2dd4bf]);
     [[-104, -79.5, 0xff5d8f, 0xffd23f, 'fruit'], [-84, -79.5, 0x2dd4bf, 0xffffff, 'pots'], [-104, -93, 0xa66bff, 0xffd23f, 'fruit']].forEach(([x, z, a, b, g]) => { const T = w.tf(x, 0, z, 0); T.slab('m', 0x9a6a3e, 0, 0, 0, 2.8, 0.95, 1.1, 0.05); [-1.3, 1.3].forEach((k) => T.add('m', cyl(8), 0x7c4a1e, k, 0, -0.45, 0, 0, 0, 0.06, 2.4, 0.06)); for (let k = 0; k < 6; k++) T.add('f', rbox(0.5, 0.05, 1.3, 0.02), k % 2 ? a : b, -1.25 + k * 0.5, 2.45, -0.1, 0.2, 0, 0); for (let k = 0; k < 8; k++) T.add('g', sph(10), g === 'pots' ? pick([0xc8693c, 0x0f9d8a, 0xffb020]) : pick([0xff5d8f, 0xffd23f, 0xff8a3d, 0x4ade80]), -1.1 + k * 0.32, 1.05, 0.05 * (k % 2), 0, 0, 0, 0.14, g === 'pots' ? 0.2 : 0.13, 0.14); T.solid(-1.4, 0, -0.55, 1.4, 1.0, 0.55); });
     for (let i = 0; i < 10; i++) { const a = i / 10 * PI * 2; claypot(w, cx + Math.cos(a) * 10.6, cz + Math.sin(a) * 9.4, 0.8 + (i % 3) * 0.15, pick([0xc8693c, 0x0f9d8a, 0xe2733f, 0xffb020]), pick(['cactus', 'flower', 'agave'])); }
-    sign3d(w, 'OLD ADOBE QUARTER', -94, 3.4, -97.6, 0, 0.32, 0xffffff, 0xb45309); w.add('m', rbox(7.4, 0.9, 0.2, 0.08), 0xb45309, -94, 3.4, -97.75); [-97.5, -90.5].forEach((x) => w.add('m', rcyl(0.12, 3.4, 0.04, 12), 0x7c4a1e, x, 0, -97.75));
+    sign3d(w, 'ABANDONED VILLAGE', -94, 3.4, -97.6, 0, 0.32, 0xffffff, 0xb45309); w.add('m', rbox(7.4, 0.9, 0.2, 0.08), 0xb45309, -94, 3.4, -97.75); [-97.5, -90.5].forEach((x) => w.add('m', rcyl(0.12, 3.4, 0.04, 12), 0x7c4a1e, x, 0, -97.75));
     for (let i = 0; i < 12; i++) { const x = -124 + R() * 60, z = -124 + R() * 20; if (i % 3 === 0) prickly(w, x, z, 1.2); else if (i % 3 === 1) barrel(w, x, z, 1); else agave(w, x, z, 1); }
     for (let i = 0; i < 8; i++) { const x = -124 + R() * 8, z = -100 + R() * 50; if (i % 2) prickly(w, x, z, 1.1); else barrel(w, x, z, 0.9); }
     sunShell(w, cx, 2.0, cz); sunShell(w, -76.5, 0.6, -98.5); }
@@ -61,7 +61,7 @@ function quarter(w) { const S = w.spots, cx = -94, cz = -86;
     { const T = w.tf(-101.5, FL, -112.6, -0.6); T.add('m', torus(0.08, 24, PI), 0x9a6a3e, 0, 0.1, 0, 0, 0, 0, 0.9, 0.5, 1); T.add('g', sph(16), 0x4caf50, 0, 0.55, 0, 0, 0, 0, 0.55, 0.35, 0.45); T.add('g', sph(12), 0x86efac, 0.55, 0.65, 0, 0, 0, 0, 0.2); T.solid(-0.8, 0, -0.5, 0.8, 0.9, 0.5); }
     K.plant(w, -99, -115, 1.0); art(w, 'x', -102.2, -111, 2.8, 1.2, 0.9, -1, 4); sunShell(w, -113.3, FL + 2.5, -112.5); }
   w.region = 'shell'; }
-// ------------------------------------------------------------------------------------------------ FIESTA PLAZA
+// ------------------------------------------------------------------------------------------------ MONSTER MASH PLAZA
 function fiesta(w) { w.region = 'out'; K.floor(w, 48, 32, 80, 43.5, 'tile', 0.0, 0xffd9a8, 0xff9f7a, 1.6); K.floor(w, 60, 6, 64, 32, 'tile', 0.0, 0xe8cfa6, 0xd9b98a, 1.4);
   { const cx = 64, cz = 37.5; w.add('m', rcyl(2.4, 0.5, 0.15, 40), 0xff8a3d, cx, 0, cz); w.add('e', rcyl(2.15, 0.1, 0.05, 40), 0x7dd3fc, cx, 0.38, cz); w.add('g', lathe([[0, 0], [0.5, 0], [0.3, 0.6], [0.6, 1.2], [0, 1.3]], 24, 'fnt2'), 0xffd23f, cx, 0, cz); w.solid(cx - 2.4, 0, cz - 2.4, cx + 2.4, 0.5, cz + 2.4); sunShell(w, cx, 2.0, cz);
     flagString(w, [[48.5, 3.6, 33], [56, 3.0, 38], [64, 3.6, 33], [72, 3.0, 38], [79.5, 3.6, 33]]); lanternString(w, [[48.5, 3.4, 42.8], [64, 2.8, 40], [79.5, 3.4, 42.8]]);
@@ -70,7 +70,7 @@ function fiesta(w) { w.region = 'out'; K.floor(w, 48, 32, 80, 43.5, 'tile', 0.0,
     sign3d(w, 'TACO TORTUGA', 52.55, 2.95, 37.8, -PI / 2, 0.16, 0xffffff, 0xff5d8f);
     [[70, 35.5], [75.5, 35.5], [70, 40.5], [75.5, 40.5]].forEach(([x, z], i) => { w.add('m', rbox(1.8, 0.08, 0.9, 0.03), 0xc58b52, x, 0.72, z); [-1, 1].forEach((s) => w.add('m', rbox(1.8, 0.06, 0.3, 0.02), 0xb07a3c, x, 0.42, z + s * 0.75)); w.add('x', cyl(8), 0xffffff, x, 0, z, 0, 0, 0, 0.04, 2.6, 0.04); w.add('f', lathe([[1.4, 0], [1.35, 0.02], [0.7, 0.3], [0, 0.45]], 24, 'umb3'), [0xff5d8f, 0xffd23f, 0x2dd4bf, 0xa66bff][i], x, 2.4, z); w.solid(x - 0.9, 0, z - 0.45, x + 0.9, 0.76, z + 0.45); });
     { w.add('x', cyl(8), 0x7c4a1e, 58, 0, 41.5, 0, 0, 0, 0.06, 3.4, 0.06); const T = w.tf(58, 2.6, 41.5, 0.3); T.add('f', sph(12), 0xff5d8f, 0, 0, 0, 0, 0, 0, 0.35, 0.3, 0.45); for (let k = 0; k < 6; k++) T.add('f', rbox(0.05, 0.3, 0.06, 0.01), SUN[k], -0.25 + k * 0.1, -0.35, 0.1, 0, 0, 0); T.add('f', sph(10), 0xffd23f, 0, 0.18, 0.4, 0, 0, 0, 0.14); }
-    sign3d(w, 'FIESTA PLAZA', 64, 3.2, 32.4, 0, 0.3, 0xffffff, 0xff5d8f); for (let i = 0; i < 6; i++) claypot(w, 49 + i * 6, 43.2, 0.8, pick([0xff8a3d, 0x2dd4bf, 0xff5d8f]), pick(['flower', 'cactus'])); }
+    sign3d(w, 'MONSTER MASH PLAZA', 64, 3.2, 32.4, 0, 0.3, 0xffffff, 0xff5d8f); for (let i = 0; i < 6; i++) claypot(w, 49 + i * 6, 43.2, 0.8, pick([0xff8a3d, 0x2dd4bf, 0xff5d8f]), pick(['flower', 'cactus'])); }
   // CINEMA
   building(w, { id: 'cinema', x0: 48, z0: 44, x1: 66, z1: 60, ceil: 5.6, ext: 0xfca5a5, int: 0x3b1d2e, band: 0xffd23f, floor: ['carpet', 0x7f1d1d, 0x991b1b, 1.0], door: { side: 'n', a: 55, b: 59 }, curtain: 0xb91c1c, li: 18, lightCol: 0xffe2b8, noPots: true, sign: ['SLOWMOTION PICTURE HOUSE', 0.3, 0xffd23f, 0x7f1d1d] });
   w.region = 'cinema'; { // big screen with a "movie" (glowing desert sunset scene in 3D strips), curtains, stepped rows of red seats, popcorn counter, projector booth
