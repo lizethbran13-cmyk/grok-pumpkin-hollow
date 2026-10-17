@@ -1,18 +1,20 @@
 // Grok Pumpkin Hollow: Martina "Torty"'s desert-oasis hometown. A palm-ringed Pumpkin Square, Spooky Street, the Burrows (homes),
 // Haunted Hill, the Broomstick Racetrack, the Pumpkin Patch and the Bat Cliffs edge. 18 enterable buildings, each its own
 // culled region; outdoors batch into big merged chunks, tiny decor goes into far-culled "detail" chunks. All real 3D geometry.
-import { tortuga } from './tortuga.js?v=ph11';
-import { districts } from './districts.js?v=ph11';
+import { tortuga } from './tortuga.js?v=ph12';
+import { districts } from './districts.js?v=ph12';
 import * as THREE from 'three';
-import * as LY from './layout.js?v=ph11';
-import * as BOO from './boorow.js?v=ph11';
-import * as BD from './boodata.js?v=ph11';
-import * as FA from './facades.js?v=ph11';
-import * as TH from './theme.js?v=ph11';
-import * as HOL from './holiday.js?v=ph11';
-import * as K from './kit.js?v=ph11';
-import { interiors } from './interiors.js?v=ph11';
-import { underground } from './under.js?v=ph11';
+import * as LY from './layout.js?v=ph12';
+import * as BOO from './boorow.js?v=ph12';
+import * as BD from './boodata.js?v=ph12';
+import * as SX from './spookster.js?v=ph12';
+import * as SD from './spookdata.js?v=ph12';
+import * as FA from './facades.js?v=ph12';
+import * as TH from './theme.js?v=ph12';
+import * as HOL from './holiday.js?v=ph12';
+import * as K from './kit.js?v=ph12';
+import { interiors } from './interiors.js?v=ph12';
+import { underground } from './under.js?v=ph12';
 const { wall, D, G, floor, ceiling, sign3d, rbox, rcyl, lathe, sph, cyl, cone, torus, capsule, tube, leaf, star, heart, blobGeo, pick } = K;
 const R = K.R, PI = Math.PI; let I = null;
 export const FL = 0.02;
@@ -48,6 +50,7 @@ export const REGIONS = [
   { id: 'u_hall', x0: 204, x1: 232, z0: -14, z1: 14, y0: -34, y1: -20, ceil: -23.0, name: '🎃 Hall of the Lantern Keepers', under: true },
 ];
 export const NEAR = { u_tunnel: ['u_crystal'], u_crystal: ['u_tunnel', 'u_hall', 'u_grotto'], u_hall: ['u_crystal'], u_grotto: ['u_crystal'] };
+Object.assign(NEAR, SD.NEAR);
 export const AREAS = [
   { x0: -128, x1: -60, z0: -128, z1: -40, name: '🏺 Abandoned Village' }, { x0: 46, x1: 80, z0: 32, z1: 62, name: '🎉 Monster Mash Plaza' },
   { x0: -34, x1: 34, z0: -38, z1: 36, name: '🎃 Pumpkin Square' }, { x0: 30, x1: 120, z0: -32, z1: 32, name: '🛍️ Spooky Street' },
@@ -56,13 +59,15 @@ export const AREAS = [
   { x0: 80, x1: 132, z0: 32, z1: 132, name: '🦇 Bat Cliffs' }, { x0: 56, x1: 132, z0: -80, z1: -32, name: '🎃 Mad Science Yard' }, { x0: 60, x1: 132, z0: -132, z1: -32, name: '🦇 Foggy Moor' },
 ];
 REGIONS.splice(REGIONS.findIndex((r) => r.under), 0, ...BD.REG); AREAS.unshift({ x0: 144, x1: 184, z0: -64, z1: 60, name: '👻 Boo Row', blk: 1, vert: 1, m: { x0: 145, z0: -62, x1: 182, z1: 58 } }); LY.EXTRA.push([135, -66, 186, 62]);
+REGIONS.push(...SD.REG); AREAS.unshift(SD.AREA); LY.EXTRA.push(...SD.EXTRA); // DLC #45 Spookster: Sludge Site + Gloomworks (outside every SRC block, so relayout leaves it alone)
 export function regionAt(x, y, z) { for (const r of REGIONS) if (x >= r.x0 && x <= r.x1 && z >= r.z0 && z <= r.z1 && y >= r.y0 && y <= r.y1) return r.id; return 'out'; }
 export function areaName(x, z) { for (const a of AREAS) if (x >= a.x0 && x <= a.x1 && z >= a.z0 && z <= a.z1) return a.name; return '🎃 Pumpkin Hollow'; }
 export const DOORS = { bakery: [-108, -74], music: [-82, -74], toys: [-106, -102], cinema: [57, 44], icecream: [73.5, 44], tortuga: [78, -42], hall: [0, -42], library: [-37, -42], cafe: [37, -42], post: [-38, 40], inn: [37, 40], market: [62, -10], shellshop: [87, -10], pottery: [106, -10], sweets: [57, 10], fossil: [82, 10],
   burrow: [-59, -10], shelby: [-86, -10], school: [-60, 10], spa: [-23, -94], obs: [22, -98], club: [-12, 82], barn: [-86, 52], green: [-73, 70] };
-Object.assign(DOORS, BD.DOORS);
+Object.assign(DOORS, BD.DOORS); Object.assign(DOORS, SD.DOORS);
 // Ghost Train stops (fast travel) [x, z, yaw, name]
 export const STOPS = [[6, 30, PI, '🎃 Pumpkin Square'], [114, 8, -PI / 2, '🛍️ Spooky Street'], [-112, 8, PI / 2, '🏡 Hollow Lane'], [6, -84, PI, '♨️ Haunted Hill'], [6, 66, 0, '🏁 Racetrack'], [-78, 38, PI / 2, '🎃 Pumpkin Patch'], [100, 62, -PI / 2, '🦇 Bat Cliffs'], [84, -36, PI, '🎃 Mad Science Lab'], [-94, -72, PI, '🏺 Abandoned Village'], [68, 30.5, PI, '🎉 Monster Mash Plaza']]; STOPS.push([164, -14, Math.PI, '👻 Boo Row']);
+if (SD.OWN) STOPS.push(SD.STOP);
 // ------------------------------------------------------------------------------------------------ shared helpers
 export const shade = (c, k) => { const C = new THREE.Color(c); C.multiplyScalar(k); return C.getHex(); };
 const prismCache = new Map();
@@ -175,7 +180,7 @@ export function buildTown(w) {
   w.env = Object.assign({}, TH.ENV);
   I = (o) => { w.inter.push(o); return o; }; w.I = I;
   w.region = 'shell'; ground(w); w.region = 'out'; square(w); market(w); burrows(w); hill(w); track(w); farm(w); dunes(w); LY.newLand(w, K, TH, floor, mesa); LY.streets(w, floor);
-  shells(w); interiors(w); tortuga(w); districts(w); underground(w); w.region = 'out'; expressStops(w); TH.dress(w, K); TH.dressInside(w, K, REGIONS); HOL.buildStations(w, K); BOO.build(w, K, TH, building, floor); w.region = 'shell';
+  shells(w); interiors(w); tortuga(w); districts(w); underground(w); w.region = 'out'; expressStops(w); TH.dress(w, K); TH.dressInside(w, K, REGIONS); HOL.buildStations(w, K); BOO.build(w, K, TH, building, floor); SX.build(w, K, TH, building, floor); w.region = 'shell';
   w.start = [0, 0.2, 21]; w.startYaw = PI; w.camDist = 9.5; LY.relayout(w, { REGIONS, AREAS, DOORS, STOPS, TRACK }); { const rg_ = w.region; w.region = 'out'; LY.doorPaths(w, floor, REGIONS, DOORS); w.region = rg_; }
   return w; }
 export function tcrate(w, x, y, z, s = 1, col = 0xd8a15a, top = 'lettuce') { const T = w.tf(x, y, z, R() * 0.3, s); T.slab('m', col, 0, 0, 0, 1, 0.8, 1, 0.06); [-1, 1].forEach((sd) => { T.box('m', shade(col, 0.8), 0, 0.05, sd * 0.505, 0.9, 0.12, 0.03, 0.02); T.box('m', shade(col, 0.8), 0, 0.62, sd * 0.505, 0.9, 0.12, 0.03, 0.02); T.box('m', shade(col, 0.8), sd * 0.505, 0.05, 0, 0.03, 0.12, 0.9, 0.02); T.box('m', shade(col, 0.8), sd * 0.505, 0.62, 0, 0.03, 0.12, 0.9, 0.02); });

@@ -1,11 +1,12 @@
 // Menus & panels: title, pause, journal, dialog, clue cards, finale, town map, Style Station, mini-game launcher.
-import { $, esc } from './util.js?v=ph11';
-import { S, persist, resetSave } from './save.js?v=ph11';
-import { sfx, setSound } from './audio.js?v=ph11';
-import { HATS, BADGES, SUN_CLUES, SUSPECTS, clueText, sunStep, sideTasks, hint } from './story.js?v=ph11';
-import { REGIONS, DOORS, AREAS, STOPS, TRACK } from './town.js?v=ph11';
-import { SKINS, HAIRS, HAIR_COLS, SHIRTS, PANTS, cleanLook } from './humans.js?v=ph11';
-import * as MG from './minigames.js?v=ph11';
+import { $, esc } from './util.js?v=ph12';
+import { S, persist, resetSave } from './save.js?v=ph12';
+import { sfx, setSound } from './audio.js?v=ph12';
+import { HATS, BADGES, SUN_CLUES, SUSPECTS, clueText, sunStep, sideTasks, hint } from './story.js?v=ph12';
+import { REGIONS, DOORS, AREAS, STOPS, TRACK } from './town.js?v=ph12';
+import { SKINS, HAIRS, HAIR_COLS, SHIRTS, PANTS, cleanLook } from './humans.js?v=ph12';
+import * as MG from './minigames.js?v=ph12';
+import * as SD from './spookdata.js?v=ph12';
 const hex = (c) => '#' + c.toString(16).padStart(6, '0');
 export function panel(html, mount, cls = '') { const ui = $('ui'); { const t = $('toast'); if (t && !ui.classList.contains('open')) { t.innerHTML = ''; t.classList.add('low'); } } /* menus open with a clean screen (no reward pills over their header) */ ui.innerHTML = `<div class="panel ${cls}">${html}</div>`; ui.classList.add('open'); if (mount) mount(ui.firstChild); return ui.firstChild; }
 export function closePanel() { const ui = $('ui'); ui.innerHTML = ''; ui.classList.remove('open'); const t = $('toast'); if (t && !t.children.length) t.classList.remove('low'); }
@@ -75,9 +76,10 @@ export class UI {
       on(c, '#mBack', () => { if (back) back(); else this.done(); }); }); }
   express(g, from) { this.open(); panel(`<h2>🚂 GHOST TRAIN</h2><p class="sub">Whoooo! Where to? (Free, fast and a little drafty.)</p><div class="tBtns">${STOPS.map((s2, i) => `<button class="mbtn2" data-i="${i}" ${i === from ? 'disabled' : ''}>${s2[3]}${i === from ? ' (you are here)' : ''}</button>`).join('')}<button class="mbtn2" id="eX">✖ STAY HERE</button></div>`, (c) => {
       c.querySelectorAll('[data-i]').forEach((b) => b.onclick = () => { if (+b.dataset.i === from) return; sfx('click'); this.done(); g.travel(+b.dataset.i); }); on(c, '#eX', () => this.done()); }); }
-  wardrobe() { this.open(); const app = this.app; panel(`<div class="topBar"><button class="back" id="wBack">◀</button><h2>👕 STYLE STATION</h2></div><button class="mbtn2" id="wLook">👤 CHANGE HAIR, SKIN &amp; CLOTHES</button><h3>HATS</h3><div class="hats">${HATS.map((h) => `<button data-h="${h.id}" class="${S.outfit === h.id ? 'on' : ''} ${S.hats[h.id] ? '' : 'lock'}"><b>${S.hats[h.id] ? esc(h.n) : '🔒 ' + esc(h.n)}</b><small>${esc(h.how)}</small></button>`).join('')}</div>`, (c) => {
-      on(c, '#wLook', () => this.custom(() => this.wardrobe()));
-      c.querySelectorAll('[data-h]').forEach((b) => b.onclick = () => { if (!S.hats[b.dataset.h]) { sfx('deny'); return; } S.outfit = b.dataset.h; persist(); sfx('buy'); app.game.me.setOutfit(S.outfit); app.net.online && app.net.sendLook(); this.wardrobe(); });
+  wardrobe() { this.open(); const app = this.app; panel(`<div class="topBar"><button class="back" id="wBack">◀</button><h2>👕 STYLE STATION</h2></div><button class="mbtn2" id="wLook">👤 CHANGE HAIR, SKIN &amp; CLOTHES</button><h3>HATS</h3><div class="hats">${HATS.map((h) => `<button data-h="${h.id}" class="${S.outfit === h.id ? 'on' : ''} ${S.hats[h.id] ? '' : 'lock'}"><b>${S.hats[h.id] ? esc(h.n) : '🔒 ' + esc(h.n)}</b><small>${esc(h.how)}</small></button>`).join('')}</div>${SD.OWN ? `<h3>🧪 SPOOKSTER SKINS</h3><div class="hats">${SD.SKINS.map((k) => `<button data-sk="${k.id}" class="${S.sx.skin === k.id ? 'on' : ''} ${S.sx.skins[k.id] ? '' : 'lock'}"><b>${S.sx.skins[k.id] ? esc(k.n) : '🔒 ' + esc(k.n)}</b><small>${esc(k.how)}</small></button>`).join('')}</div>` : ''}`, (c) => {
+      c.querySelectorAll('[data-sk]').forEach((b) => b.onclick = () => { if (!app.game.spookSkin || !app.game.spookSkin(b.dataset.sk)) { sfx('deny'); return; } sfx('buy'); this.wardrobe(); });
+      on(c, '#wLook', () => this.custom(() => { app.game.spookSkin && S.sx.skin !== 'none' && app.game.spookSkin(S.sx.skin); this.wardrobe(); }));
+      c.querySelectorAll('[data-h]').forEach((b) => b.onclick = () => { if (!S.hats[b.dataset.h]) { sfx('deny'); return; } S.outfit = b.dataset.h; persist(); sfx('buy'); app.game.me.setOutfit(S.outfit); app.game.spookSkin && S.sx.skin !== 'none' && app.game.spookSkin(S.sx.skin); app.net.online && app.net.sendLook(); this.wardrobe(); });
       on(c, '#wBack', () => this.done()); }); }
   // ---------------- goo mixer (hands-on)
   // ---------------- 2D mini-games

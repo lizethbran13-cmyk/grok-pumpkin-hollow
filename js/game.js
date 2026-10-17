@@ -1,28 +1,29 @@
 // Grok Pumpkin Hollow runtime: the town, players, townsfolk, the shuttle cart, ambient desert life, day -> sunset, collectibles,
 // the Moon Lantern mystery, the Broomstick Derby + Pumpkin Rush (3D mini-games), a hidden puzzle, co-op hooks.
 import * as THREE from 'three';
-import { RP, setP, relayNPC, freeSpot } from './layout.js?v=ph11';
-import { makeFolk, animFolk } from './folk.js?v=ph11';
-import { holAct } from './holiday.js?v=ph11';
-import { GLYPH_TXT } from './story_theme.js?v=ph11';
-import { LIGHT as THL, TH as THM } from './theme.js?v=ph11';
-import { panel } from './ui.js?v=ph11';
-import { E, setEnvironment, followShadow, skyUniforms } from './engine.js?v=ph11';
-import { World } from './world.js?v=ph11';
-import { buildTown, regionAt, areaName, REGIONS, DOORS, NEAR, STOPS, TRACK } from './town.js?v=ph11';
-import { UY } from './under.js?v=ph11';
-import { Player } from './player.js?v=ph11';
-import { FX } from './fx.js?v=ph11';
-import { makeRat, animRat, MB, toGroup } from './models.js?v=ph11';
-import { makePup, animPup, birdGeo } from './dogs.js?v=ph11';
-import { makeTortoise, animTortoise, makeRoadrunner, animRoadrunner, makeLizard, animLizard, makeSunstone } from './critters.js?v=ph11';
-import { P } from './geo.js?v=ph11';
-import { rcyl, capsule, torus, sph, cone, heart, star, blobGeo } from './shapes.js?v=ph11';
-import { updateFrustum, inView, LightPool } from './perf.js?v=ph11';
-import { sfx, playMusic } from './audio.js?v=ph11';
-import { S, persist } from './save.js?v=ph11';
-import { NPCS, talk, clueText, SUN_CLUES, HATS, BADGES, GLYPH } from './story.js?v=ph11';
-import { readMove, edge, held, IN } from './input.js?v=ph11';
+import { RP, setP, relayNPC, freeSpot } from './layout.js?v=ph12';
+import { makeFolk, animFolk } from './folk.js?v=ph12';
+import { holAct } from './holiday.js?v=ph12';
+import * as SX from './spookster.js?v=ph12';
+import { GLYPH_TXT } from './story_theme.js?v=ph12';
+import { LIGHT as THL, TH as THM } from './theme.js?v=ph12';
+import { panel } from './ui.js?v=ph12';
+import { E, setEnvironment, followShadow, skyUniforms } from './engine.js?v=ph12';
+import { World } from './world.js?v=ph12';
+import { buildTown, regionAt, areaName, REGIONS, DOORS, NEAR, STOPS, TRACK } from './town.js?v=ph12';
+import { UY } from './under.js?v=ph12';
+import { Player } from './player.js?v=ph12';
+import { FX } from './fx.js?v=ph12';
+import { makeRat, animRat, MB, toGroup } from './models.js?v=ph12';
+import { makePup, animPup, birdGeo } from './dogs.js?v=ph12';
+import { makeTortoise, animTortoise, makeRoadrunner, animRoadrunner, makeLizard, animLizard, makeSunstone } from './critters.js?v=ph12';
+import { P } from './geo.js?v=ph12';
+import { rcyl, capsule, torus, sph, cone, heart, star, blobGeo } from './shapes.js?v=ph12';
+import { updateFrustum, inView, LightPool } from './perf.js?v=ph12';
+import { sfx, playMusic } from './audio.js?v=ph12';
+import { S, persist } from './save.js?v=ph12';
+import { NPCS, talk, clueText, SUN_CLUES, HATS, BADGES, GLYPH } from './story.js?v=ph12';
+import { readMove, edge, held, IN } from './input.js?v=ph12';
 const PI = Math.PI;
 const TOYS = [[60, 0, 76], [-70, 0, 61], [108, 0, -4]].map((p) => RP(...p));
 const DAY = 420; // seconds per day -> sunset cycle
@@ -48,7 +49,8 @@ export class Game {
   sfx(n) { sfx(n); }
   // ------------------------------------------------ townsfolk
   buildNPCs() { const w = this.world; this.npcs = NPCS.map((d) => { relayNPC(d); const L = d.look; let rig, kind, markY;
-      if (!['torty','candy','luna','pirat','snowie'].includes(d.id) && !L.rat && !L.dog) { const v = [...d.id].reduce((a, ch) => a + ch.charCodeAt(0), 0) % 8; rig = makeFolk(THM.id, d.id === 'mayor' && THM.snow ? 99 : v); rig.root.scale.setScalar(d.id === 'pebble' || (L.s && L.s < 0.2) ? 0.62 : d.id === 'mayor' ? 1.2 : 1.0); kind = 'folk'; markY = 2.0; }
+      if (L.sci != null) { rig = SX.makeSci(L.sci); kind = 'folk'; markY = 2.15; }
+      else if (!['torty','candy','luna','pirat','snowie'].includes(d.id) && !(d.id.startsWith('m_') && L.t) && !L.rat && !L.dog) { const v = [...d.id].reduce((a, ch) => a + ch.charCodeAt(0), 0) % 8; rig = makeFolk(THM.id, d.id === 'mayor' && THM.snow ? 99 : v); rig.root.scale.setScalar(d.id === 'pebble' || (L.s && L.s < 0.2) ? 0.62 : d.id === 'mayor' ? 1.2 : 1.0); kind = 'folk'; markY = 2.0; }
       else if (L.rat) { rig = makeRat(L.rat, L.hat || 'none', { pack: false, extras: L.extras || [], noBlaster: true }); rig.root.scale.setScalar(1.35); kind = 'rat'; markY = 1.6; }
       else if (L.dog) { rig = makePup(L.dog, { seed: 7 }); rig.root.scale.setScalar(L.s || 1); kind = 'dog'; markY = 1.2; }
       else if (L.bird) { rig = makeRoadrunner(L.bird); rig.root.scale.setScalar(L.s || 0.6); kind = 'bird'; markY = 1.6 * (L.s || 0.6); }
@@ -174,7 +176,7 @@ export class Game {
     this.setVis(regionAt(me.x, me.y + 0.3, me.z)); this.hud.region(this.areaLabel());
     for (const p of this.players.values()) if (!p.local) { p.remoteUpdate(dt); p.updateBlob(w); }
     updateFrustum(E.camera);
-    this.updateNPCs(dt); this.anim(dt); this.updateRace(dt); this.updateRush(dt); this.collect(); this.secretsCheck(); this.farCull(dt);
+    this.updateNPCs(dt); this.anim(dt); this.updateRace(dt); this.updateRush(dt); this.collect(); SX.tick(w, dt, this); this.secretsCheck(); this.farCull(dt);
     this.updateAct(); if (inp.actP && this.act) this.doAct(this.act);
     this.net.tick && this.net.tick(dt, this);
     this.updateCam(dt); this.render(dt); this.hud.update(dt, this); this.lightPool.update(dt, me.x, me.y + 2, me.z); }
@@ -184,13 +186,13 @@ export class Game {
   // day -> golden desert sunset cycle (host time, so co-op players share the sky). Pure tone, never a quality change.
   dayK() { const o = (this.net.online && this.hostTod) || S.opts.tod || 'auto'; if ((S.q.sun | 0) >= 4 && o === 'auto') return 1; if (o === 'day') return 0; if (o === 'evening') return 1; const p = (this.T / DAY) % 1; return p < 0.5 ? 0 : p < 0.6 ? (p - 0.5) / 0.1 : p < 0.9 ? 1 : 1 - (p - 0.9) / 0.1; }
   light(dt) { const k0 = this.dayK(); this.ev = this.ev == null ? k0 : this.ev + (k0 - this.ev) * Math.min(1, dt * 2); const ev = this.ev, inside = this.region !== 'out', under = this.under;
-    const L = under ? [1.05, 0.22, 0.25, 1.0, 0.7] : inside ? [1.0, 0.62, 0.8, 1.25, 0.26] : [1.0 - ev * 0.06, 0.6 - ev * 0.14, 0.85 - ev * 0.28, 1.0 - ev * 0.14, 0.38 + ev * 0.16];
+    const lab = under && this.region.startsWith('u_gw'); /* DLC #45 Gloomworks: a lit facility, not a cave */ const L = lab ? [1.0, 0.5, 0.62, 1.1, 0.42] : under ? [1.05, 0.22, 0.25, 1.0, 0.7] : inside ? [1.0, 0.62, 0.8, 1.25, 0.26] : [1.0 - ev * 0.06, 0.6 - ev * 0.14, 0.85 - ev * 0.28, 1.0 - ev * 0.14, 0.38 + ev * 0.16];
     { const RX = inside && !under && REGIONS.find((q) => q.id === this.region), tm = (RX && RX.tone) || 1; if (tm !== 1) { L[0] *= tm; L[1] *= tm * 0.9; L[2] *= tm * 0.85; } }
     const k = Math.min(1, dt * 4), R = E.renderer; R.toneMappingExposure += (L[0] - R.toneMappingExposure) * k; E.hemi.intensity += (L[1] - E.hemi.intensity) * k; this.scene.environmentIntensity += (L[2] - this.scene.environmentIntensity) * k;
     if (E.bloom) { E.bloom.threshold += (L[3] - E.bloom.threshold) * k; E.bloom.strength += (L[4] - E.bloom.strength) * k; }
     const c = this._c || (this._c = { a: new THREE.Color(), b: new THREE.Color() }); E.sun.color.copy(c.a.set(THL.sunA).lerp(c.b.set(THL.sunB), ev)); E.sun.intensity = under ? 0.2 : THL.sunI[0] + (THL.sunI[1] - THL.sunI[0]) * ev; E.hemi.color.copy(c.a.set(THL.hemiA).lerp(c.b.set(THL.hemiB), ev));
     const u = skyUniforms(); if (u) { u.top.value.copy(c.a.set(THL.top[0]).lerp(c.b.set(THL.top[1]), ev)); u.mid.value.copy(c.a.set(THL.mid[0]).lerp(c.b.set(THL.mid[1]), ev)); u.bot.value.copy(c.a.set(THL.bot[0]).lerp(c.b.set(THL.bot[1]), ev)); u.sunCol.value.copy(E.sun.color); }
-    if (this.scene.fog) { this.scene.fog.color.copy(under ? c.a.set(0x1e1b3a) : c.a.set(THL.fog[0]).lerp(c.b.set(THL.fog[1]), ev)); this.scene.fog.density = under ? 0.02 : inside ? 0.001 : THL.dens; }
+    if (this.scene.fog) { this.scene.fog.color.copy(lab ? c.a.set(0x10261a) : under ? c.a.set(0x1e1b3a) : c.a.set(THL.fog[0]).lerp(c.b.set(THL.fog[1]), ev)); this.scene.fog.density = lab ? 0.008 : under ? 0.02 : inside ? 0.001 : THL.dens; }
     for (const s of this.world.lights) if (s.out) { if (s.i0 == null) s.i0 = s.i; s.i = s.i0 * (0.15 + ev * 1.4); } }
   anim(dt) { const T = this.T, w = this.world, me = this.me, s = w.spots;
     const G = w.gears; for (let i = 0; i < G.length; i++) { const p = G[i]; const got = this.biscGot.has(i) || (p[1] > UY + 10) !== !this.under || (p[0] - me.x) ** 2 + (p[2] - me.z) ** 2 > 6400; this._q.setFromEuler(this._e.set(0, T * 2 + i, 0)); this._p.set(p[0], p[1] + Math.sin(T * 2 + i) * 0.08, p[2]); this._s.setScalar(got ? 0 : 0.3); this._m.compose(this._p, this._q, this._s); this.shellIM.setMatrixAt(i, this._m); }

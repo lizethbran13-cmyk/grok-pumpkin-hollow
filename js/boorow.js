@@ -1,9 +1,9 @@
 // Boo Row (Pumpkin Hollow only): a new spooky street of walk-in shops on fresh land east of Spooky Street.
 // Real 3D props only (merged into the room's batched meshes, reusing the shared shape caches); one mini-activity per shop.
-import { S, persist } from './save.js?v=ph11';
-import { sfx } from './audio.js?v=ph11';
-import { panel } from './ui.js?v=ph11';
-import * as D from './boodata.js?v=ph11';
+import { S, persist } from './save.js?v=ph12';
+import { sfx } from './audio.js?v=ph12';
+import { panel } from './ui.js?v=ph12';
+import * as D from './boodata.js?v=ph12';
 const PI = Math.PI;
 const $a = (c, s) => [...c.querySelectorAll(s)], $q = (c, s) => c.querySelector(s);
 const sh = (a) => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = (Math.random() * (i + 1)) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
