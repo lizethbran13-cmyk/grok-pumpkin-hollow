@@ -1,10 +1,10 @@
 // DLC #45 Spookster Mega Pack (Grok Pumpkin Hollow): THE GLOOMWORKS, a hidden underground facility beneath a fenced-off sludge site.
 // Pure data + unlock + save logic + dialogue. Everything here is original game writing.
-import { S, persist } from './save.js?v=ph12';
+import { S, persist } from './save.js?v=ph13';
 const PI = Math.PI;
 export const KEY = 'grokDLC.pumpkinhollow.spookster_mega_pack';
 const QS = (() => { try { return new URLSearchParams(location.search); } catch (e) { return new URLSearchParams(''); } })();
-export function owned() { try { if (QS.get('locked') === '1') return false; if (/\/previews\//.test(location.pathname)) return true; // Time Jumper test build: unlocked for testing
+export function owned() { try { if (QS.get('locked') === '1') return false; if (/\/(previews|archive)\//.test(location.pathname)) return true; // Time Jumper test build + its archived Final Beta: unlocked for testing
     if (localStorage.getItem(KEY)) return true; const l = JSON.parse(localStorage.getItem('grokDLC.owned') || '[]'); return Array.isArray(l) && l.indexOf(KEY) >= 0; } catch (e) { return false; } }
 export const OWN = owned();
 export const UY = -30; // same depth as the old bat tunnels (lighting + culling treat every 'u_' region as underground)

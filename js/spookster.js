@@ -3,13 +3,13 @@
 // Static props are real 3D geometry merged into each room's batched meshes (no images on walls, no stretched textures; canvas screens keep
 // their real aspect). Everything sits on a floor, a counter or is fixed to a wall/ceiling with a visible mount.
 import * as THREE from 'three';
-import { S, persist } from './save.js?v=ph12';
-import { sfx } from './audio.js?v=ph12';
-import { panel } from './ui.js?v=ph12';
-import { MB, toGroup } from './models.js?v=ph12';
-import { P } from './geo.js?v=ph12';
-import * as D from './spookdata.js?v=ph12';
-import { E } from './engine.js?v=ph12';
+import { S, persist } from './save.js?v=ph13';
+import { sfx } from './audio.js?v=ph13';
+import { panel } from './ui.js?v=ph13';
+import { MB, toGroup } from './models.js?v=ph13';
+import { P } from './geo.js?v=ph13';
+import * as D from './spookdata.js?v=ph13';
+import { E } from './engine.js?v=ph13';
 const PI = Math.PI, UY = D.UY, FL = UY + 0.02, F0 = 0.02;
 const $a = (c, s) => [...c.querySelectorAll(s)], $q = (c, s) => c.querySelector(s);
 const sh = (a) => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = (Math.random() * (i + 1)) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
@@ -273,7 +273,7 @@ function drawPortrait(x) { const W = 512, H = 640; const g = x.createLinearGradi
   x.strokeStyle = '#1f2937'; x.lineWidth = 7; [196, 316].forEach((cx) => { x.beginPath(); x.arc(cx, 290, 34, 0, PI * 2); x.stroke(); x.fillStyle = '#39ff6a55'; x.fill(); x.fillStyle = '#111'; x.beginPath(); x.arc(cx, 292, 9, 0, PI * 2); x.fill(); }); x.beginPath(); x.moveTo(230, 290); x.lineTo(282, 290); x.stroke();
   x.fillStyle = '#39ff6a'; x.beginPath(); x.arc(420, 520, 28, 0, PI * 2); x.fill(); x.fillStyle = '#d4a017'; x.font = 'bold 30px Georgia'; x.fillText('1926', 30, 620); }
 // ================================================================== runtime
-import { animFolk } from './folk.js?v=ph12';
+import { animFolk } from './folk.js?v=ph13';
 let ST = null, SC_REG = '';
 const roomOf = (x, z) => { for (const r of D.ROOMS) if (x >= r.x0 - 0.2 && x <= r.x1 + 0.2 && z >= r.z0 - 0.2 && z <= r.z1 + 0.2) return r.id; return null; };
 function mkMesh(geo, col, em) { return new THREE.Mesh(geo, em ? new THREE.MeshBasicMaterial({ color: col, toneMapped: false }) : new THREE.MeshStandardMaterial({ color: col, roughness: 0.5 })); }
