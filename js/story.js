@@ -1,7 +1,8 @@
 // Pumpkin Hollow townsfolk, what they say, side tasks and the mystery "Who swiped the Moon Lantern?". Pure data + helpers.
-import { S, persist } from './save.js?v=ph11';
-import * as TS from './story_theme.js?v=ph11';
-import * as BD from './boodata.js?v=ph11';
+import { S, persist } from './save.js?v=ph13';
+import * as TS from './story_theme.js?v=ph13';
+import * as BD from './boodata.js?v=ph13';
+import * as SD from './spookdata.js?v=ph13';
 const PI = Math.PI;
 export const HATS = [
   { id: 'none', n: 'No Hat', how: 'Always yours' }, { id: 'pupears', n: 'Schnauzer Ears', how: "Find Candy's 3 squeaky pumpkin toys" }, { id: 'flower', n: 'Spooky Moonflower', how: "Plant Mama Rosa's 4 moonflowers" },
@@ -113,6 +114,7 @@ export const NPCS = [
   N('fan2', 'Derby Fan', { t: { shell: 'sky', bow: 0xffd23f }, s: 0.26 }, [40, 69.3, 0], 'out', { y: 1.26, mode: 'cheer' }),
   N('dusty', 'Dusty the Explorer', { liz: { col: 0xd97706, spots: 0x7c2d12, hat: 'cowboy' }, s: 1.0 }, [100, 96, PI / 2], 'out'),
 ];
+NPCS.push(...SD.NPCS.map((d) => Object.assign({}, d, { at: d.at.slice() })));
 NPCS.push(...BD.NPCS.map((d) => Object.assign({}, d, { at: d.at.slice(), walk: d.walk && d.walk.map((p) => p.slice()) })));
 for (const d of NPCS) if (TS.NAMES[d.id]) d.n = TS.NAMES[d.id];
 for (const h of HATS) if (TS.HATS[h.id]) { h.n = TS.HATS[h.id][0]; h.how = TS.HATS[h.id][1]; }
